@@ -2,32 +2,29 @@
 <template>
   <div class="scutomer_register">
     <register>
-      <h2 class="title">消费者注册</h2>
+      <h2 class="title">脱贫者注册</h2>
       <el-form
-        :model="customerInfo"
+        :model="merchantInfo"
         :rules="rules"
         ref="ruleSubmit"
-        label-width="100px"
+        label-width="150px"
       >
-        <!-- 机构名称 start -->
         <el-form-item label="用户名" prop="username">
           <el-input
-            v-model="customerInfo.username"
+            v-model="merchantInfo.username"
             placeholder="请输入用户名"
           ></el-input>
         </el-form-item>
-        <!-- 机构名称 end -->
-        <!-- 机构名称 start -->
         <el-form-item label="密码" prop="password">
           <el-input
-            v-model="customerInfo.password"
+            v-model="merchantInfo.password"
             placeholder="请输入密码"
           ></el-input>
         </el-form-item>
         <!-- 手机号 start -->
         <el-form-item label="真实姓名" prop="realName">
           <el-input
-            v-model="customerInfo.realName"
+            v-model="merchantInfo.realName"
             placeholder="请输入真实姓名"
           ></el-input>
         </el-form-item>
@@ -35,44 +32,69 @@
 
         <el-form-item label="年龄" prop="age">
           <el-input
-            v-model="customerInfo.age"
+            v-model="merchantInfo.age"
             placeholder="请输入年龄"
           ></el-input>
         </el-form-item>
         <!-- 手机号 start -->
         <el-form-item label="手机号" prop="phone">
           <el-input
-            v-model="customerInfo.phone"
+            v-model="merchantInfo.phone"
             placeholder="请输入手机号"
           ></el-input>
         </el-form-item>
         <!-- 手机号 end -->
         <el-form-item label="邮箱" prop="email">
           <el-input
-            v-model="customerInfo.email"
+            v-model="merchantInfo.email"
             placeholder="请输入邮箱"
           ></el-input>
         </el-form-item>
-        <!-- 联系地址 三级联动 start -->
-        <el-form-item label="所在地" prop="site">
-            <el-cascader
-            class="elCascader"
-              size="large"
-              :options="siteOptions"
-              v-model="customerInfo.selectedOptions"
-              @change="handleChange"
-            >
-            </el-cascader>
+
+        <el-form-item label="目前年收入" prop="annualIncome">
+          <el-input
+            v-model="merchantInfo.annualIncome"
+            placeholder="请输入学校"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="产品信息" prop="product">
+          <el-input
+            type="textarea"
+            v-model="merchantInfo.product"
+            placeholder="请输入产品信息"
+          ></el-input>
         </el-form-item>
 
+        <el-form-item label="所在地" prop="site">
+          <el-cascader
+            class="elCascader"
+            size="large"
+            :options="siteOptions"
+            v-model="merchantInfo.selectedOptions"
+            @change="handleChange"
+          >
+          </el-cascader>
+        </el-form-item>
 
         <el-form-item label="详细地址" prop="detailAddress">
           <el-input
-            v-model="customerInfo.detailAddress"
+            v-model="merchantInfo.detailAddress"
             placeholder="请输入产品详细地址"
           ></el-input>
         </el-form-item>
-    
+        <el-form-item label="产品详略图（至少上传两张不同角度的图片）">
+          <img-upload ref="imgUpload" @fileList="getProductImg"></img-upload>
+        </el-form-item>
+
+        <el-form-item label="目前是否有加工工艺">
+          <el-switch v-model="merchantInfo.isCraft"></el-switch>
+        </el-form-item>
+        <el-form-item
+          v-if="merchantInfo.isCraft"
+          label="加工工艺详略图（至少上传两张不同角度的图片）"
+        >
+          <img-upload ref="imgUpload" @fileList="getCraftImg"></img-upload>
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleSubmit')"
             >提交</el-button
@@ -94,23 +116,26 @@ export default {
   //import引入的组件需要注入到对象中才能使用
   components: { Register, ImgUpload },
   data() {
-    let checkCustomerUsername = (rule, value, callback) => {
-      this.$API.register
-        .checkCustomerUsername(this.customerInfo.username)
-        .then((res) => {
-          if (value === undefined) {
-            return callback(new Error("该用户名不能为空"));
-          }
-          if (res.data.status == 100) {
-            return callback(new Error("该用户名已经被注册"));
-          } else {
-            return callback();
-          }
-        });
-    };
+    // let checkVolunteerUsername = (rule, value, callback) => {
+    //   this.$API.register
+    //     .checkVolunteerUsername(this.merchantInfo.username)
+    //     .then((res) => {
+    //       if (value === undefined) {
+    //         return callback(new Error("该用户名不能为空"));
+    //       }
+    //       if (res.data.status == 100) {
+    //         return callback(new Error("该用户名已经被注册"));
+    //       } else {
+    //         return callback();
+    //       }
+    //     });
+    // };
     //这里存放数据
     return {
-      customerInfo: {
+      merchantInfo: {
+        productImg: null,
+        craftImg: null,
+        isCraft:false
       },
       // 地区海量信息
       siteOptions: regionData,
@@ -120,11 +145,11 @@ export default {
       register_district: "",
       // 表单验证
       rules: {
-        username: {
-          required: true,
-          validator: checkCustomerUsername,
-          trigger: "blur",
-        },
+        // username: {
+        //   required: true,
+        //   validator: checkCustomerUsername,
+        //   trigger: "blur",
+        // },
         password: {
           required: true,
           message: "密码不能为空",
@@ -154,17 +179,28 @@ export default {
   watch: {},
   //方法集合
   methods: {
-    getFileList(fileList) {
+    //   产品详略图获取
+    getProductImg(fileList) {
       // 图片选定后自动提交给服务器，反正个人信息里有url即可
       // 也可以进行删除服务器图片操作，这里先不加了，不影响
-      this.customerInfo.picture = fileList.map((item) => item.response);
+      this.merchantInfo.productImg = fileList.map((item) => item.response);
+    },
+    //   加工工艺详略图获取
+    getCraftImg(fileList) {
+      this.merchantInfo.craftImg = fileList.map((item) => item.response);
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         // json转化为string格式，不然后端和前端字符不匹配
-        this.customerInfo.site = this.customerInfo.site.join(",");
-        console.log(this.customerInfo);
-        this.$API.register.customerRegister(this.customerInfo).then((res) => {
+        this.merchantInfo.site = this.merchantInfo.site.join(",");
+        this.merchantInfo.productImg = this.merchantInfo.productImg.join(",");
+        if (this.merchantInfo.isCraft) {
+          this.merchantInfo.craftImg = this.merchantInfo.craftImg.join(",");
+        }
+
+        console.log(this.merchantInfo);
+
+        this.$API.register.merchantRegister(this.merchantInfo).then((res) => {
           console.log(res);
         });
       });
@@ -174,12 +210,12 @@ export default {
       this.register_province = CodeToText[arr[0]];
       this.register_city = CodeToText[arr[1]];
       this.register_district = CodeToText[arr[2]];
-      this.customerInfo.site = [
+      this.merchantInfo.site = [
         this.register_province,
         this.register_city,
         this.register_district,
       ];
-      console.log(this.customerInfo.site);
+      console.log(this.merchantInfo.site);
     },
   },
   //生命周期 - 创建完成（可以访问当前this实例）
@@ -197,11 +233,13 @@ export default {
 </script>
 <style scoped lang="less">
 /*@import url(); 引入公共css类*/
-.elCascader{
+.elCascader {
   position: absolute;
   left: 0;
 }
-// /deep/.el-input__inner{
-//   width: 300px;
-// }
+
+/deep/.el-switch {
+  display: block;
+  position: absolute;
+}
 </style>

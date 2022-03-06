@@ -2,17 +2,17 @@
 <template>
   <div class="scutomer_register">
     <register>
-      <h2 class="title">消费者注册</h2>
+      <h2 class="title">技术提供者注册</h2>
       <el-form
-        :model="customerInfo"
+        :model="technicistInfo"
         :rules="rules"
         ref="ruleSubmit"
-        label-width="100px"
+        label-width="150px"
       >
         <!-- 机构名称 start -->
         <el-form-item label="用户名" prop="username">
           <el-input
-            v-model="customerInfo.username"
+            v-model="technicistInfo.username"
             placeholder="请输入用户名"
           ></el-input>
         </el-form-item>
@@ -20,14 +20,14 @@
         <!-- 机构名称 start -->
         <el-form-item label="密码" prop="password">
           <el-input
-            v-model="customerInfo.password"
+            v-model="technicistInfo.password"
             placeholder="请输入密码"
           ></el-input>
         </el-form-item>
         <!-- 手机号 start -->
         <el-form-item label="真实姓名" prop="realName">
           <el-input
-            v-model="customerInfo.realName"
+            v-model="technicistInfo.realName"
             placeholder="请输入真实姓名"
           ></el-input>
         </el-form-item>
@@ -35,21 +35,21 @@
 
         <el-form-item label="年龄" prop="age">
           <el-input
-            v-model="customerInfo.age"
+            v-model="technicistInfo.age"
             placeholder="请输入年龄"
           ></el-input>
         </el-form-item>
         <!-- 手机号 start -->
         <el-form-item label="手机号" prop="phone">
           <el-input
-            v-model="customerInfo.phone"
+            v-model="technicistInfo.phone"
             placeholder="请输入手机号"
           ></el-input>
         </el-form-item>
         <!-- 手机号 end -->
         <el-form-item label="邮箱" prop="email">
           <el-input
-            v-model="customerInfo.email"
+            v-model="technicistInfo.email"
             placeholder="请输入邮箱"
           ></el-input>
         </el-form-item>
@@ -59,7 +59,7 @@
             class="elCascader"
               size="large"
               :options="siteOptions"
-              v-model="customerInfo.selectedOptions"
+              v-model="technicistInfo.selectedOptions"
               @change="handleChange"
             >
             </el-cascader>
@@ -68,11 +68,24 @@
 
         <el-form-item label="详细地址" prop="detailAddress">
           <el-input
-            v-model="customerInfo.detailAddress"
+            v-model="technicistInfo.detailAddress"
             placeholder="请输入产品详细地址"
           ></el-input>
         </el-form-item>
-    
+
+        <el-form-item label="公司/职业" prop="occupation">
+          <el-input
+            v-model="technicistInfo.occupation"
+            placeholder="请输入公司或职业"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="拥有的专利/技术" prop="patent">
+          <el-input
+          type="textarea"
+            v-model="technicistInfo.patent"
+            placeholder="请输入专利或技术"
+          ></el-input>
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleSubmit')"
             >提交</el-button
@@ -88,29 +101,28 @@
 import Register from "../../components/common/Register.vue";
 // 三级地区引入
 import { regionData, CodeToText } from "element-china-area-data";
-import ImgUpload from "../../components/common/ImgUpload.vue";
 
 export default {
   //import引入的组件需要注入到对象中才能使用
-  components: { Register, ImgUpload },
+  components: { Register},
   data() {
-    let checkCustomerUsername = (rule, value, callback) => {
-      this.$API.register
-        .checkCustomerUsername(this.customerInfo.username)
-        .then((res) => {
-          if (value === undefined) {
-            return callback(new Error("该用户名不能为空"));
-          }
-          if (res.data.status == 100) {
-            return callback(new Error("该用户名已经被注册"));
-          } else {
-            return callback();
-          }
-        });
-    };
+    // let checkCustomerUsername = (rule, value, callback) => {
+    //   this.$API.register
+    //     .checkCustomerUsername(this.technicistInfo.username)
+    //     .then((res) => {
+    //       if (value === undefined) {
+    //         return callback(new Error("该用户名不能为空"));
+    //       }
+    //       if (res.data.status == 100) {
+    //         return callback(new Error("该用户名已经被注册"));
+    //       } else {
+    //         return callback();
+    //       }
+    //     });
+    // };
     //这里存放数据
     return {
-      customerInfo: {
+      technicistInfo: {
       },
       // 地区海量信息
       siteOptions: regionData,
@@ -120,11 +132,11 @@ export default {
       register_district: "",
       // 表单验证
       rules: {
-        username: {
-          required: true,
-          validator: checkCustomerUsername,
-          trigger: "blur",
-        },
+        // username: {
+        //   required: true,
+        //   validator: checkCustomerUsername,
+        //   trigger: "blur",
+        // },
         password: {
           required: true,
           message: "密码不能为空",
@@ -154,17 +166,12 @@ export default {
   watch: {},
   //方法集合
   methods: {
-    getFileList(fileList) {
-      // 图片选定后自动提交给服务器，反正个人信息里有url即可
-      // 也可以进行删除服务器图片操作，这里先不加了，不影响
-      this.customerInfo.picture = fileList.map((item) => item.response);
-    },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         // json转化为string格式，不然后端和前端字符不匹配
-        this.customerInfo.site = this.customerInfo.site.join(",");
-        console.log(this.customerInfo);
-        this.$API.register.customerRegister(this.customerInfo).then((res) => {
+        this.technicistInfo.site = this.technicistInfo.site.join(",");
+        console.log(this.technicistInfo);
+        this.$API.register.technicistRegister(this.technicistInfo).then((res) => {
           console.log(res);
         });
       });
@@ -174,12 +181,12 @@ export default {
       this.register_province = CodeToText[arr[0]];
       this.register_city = CodeToText[arr[1]];
       this.register_district = CodeToText[arr[2]];
-      this.customerInfo.site = [
+      this.technicistInfo.site = [
         this.register_province,
         this.register_city,
         this.register_district,
       ];
-      console.log(this.customerInfo.site);
+      console.log(this.technicistInfo.site);
     },
   },
   //生命周期 - 创建完成（可以访问当前this实例）

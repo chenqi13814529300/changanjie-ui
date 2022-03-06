@@ -1,6 +1,6 @@
 <!--  -->
 <template>
-  <div class="">
+  <div class="imgUpload">
     <el-upload
       action="/api/img/upload"
       ref="upload"
@@ -39,13 +39,13 @@
     <el-dialog :visible.sync="dialogVisible">
       <img width="100%" :src="dialogImageUrl" alt="" />
     </el-dialog>
-    <el-button
+    <!-- <el-button
       style="margin-left: 10px"
       size="small"
       type="success"
       @click="submitUpload"
       >上传到服务器</el-button
-    >
+    > -->
   </div>
 </template>
 
@@ -62,7 +62,7 @@ export default {
       dialogImageUrl: "",
       dialogVisible: false,
       disabled: false,
-      files:[]
+      files: [],
     };
   },
   //监听属性 类似于data概念
@@ -77,7 +77,7 @@ export default {
     },
     // 提交成功即可调用这个方法，获取图片url
     imgUrlList(response, file, fileList) {
-      this.$emit('fileList',fileList)
+      this.$emit("fileList", fileList);
       console.log(fileList);
     },
     handleChange(file, fileList) {
@@ -105,6 +105,19 @@ export default {
   activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 };
 </script>
-<style scoped>
-/*@import url(); 引入公共css类*/
+<style scoped lang="less">
+.imgUpload {
+  position: absolute;
+  left: 0;
+}
+/deep/.el-upload--picture-card {
+  width: 110px;
+  height: 110px;
+  line-height: 110px;
+}
+/deep/.el-upload-list--picture-card .el-upload-list__item {
+  width: 110px;
+  height: 110px;
+  line-height: 110px;
+}
 </style>
