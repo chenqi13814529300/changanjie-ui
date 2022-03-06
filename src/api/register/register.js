@@ -1,17 +1,15 @@
 import service from '@/utils/service'
 
-// 
-const checkStudentUsername = (username) => {
-    return service.get('/register/checkStudentUsername', {
+// 用户名重复判断
+const checkUsername = (username) => {
+    return service.get('/register/checkUsername', {
         params: {
             username: username
 
         }
     })
 }
-const studentRegister = (studentInfo) => {
-    return service.post('/register/studentRegister', studentInfo)
-}
+
 
 
 
@@ -52,10 +50,8 @@ const technicistRegister = (technicistInfo) => {
 }
 
 export default {
-    checkStudentUsername,
-    studentRegister,
+    checkUsername,
     // 消费者
-    checkCustomerUsername,
     customerRegister,
     // 志愿者
     checkVolunteerUsername,

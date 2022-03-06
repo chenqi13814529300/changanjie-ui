@@ -15,6 +15,19 @@ import Login from '@/views/login/Login'
 Vue.use(VueRouter)
 
 const routes = [
+{
+  path: '/',
+  name: 'Home',
+  component: () => import('@/views/home/Home'),
+},
+
+
+
+
+
+
+
+
   {
     path: '/studentRegister',
     name: 'StudentRegister',

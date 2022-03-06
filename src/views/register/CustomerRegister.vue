@@ -94,9 +94,9 @@ export default {
   //import引入的组件需要注入到对象中才能使用
   components: { Register, ImgUpload },
   data() {
-    let checkCustomerUsername = (rule, value, callback) => {
+    let checkUsername = (rule, value, callback) => {
       this.$API.register
-        .checkCustomerUsername(this.customerInfo.username)
+        .checkUsername(this.customerInfo.username)
         .then((res) => {
           if (value === undefined) {
             return callback(new Error("该用户名不能为空"));
@@ -121,7 +121,7 @@ export default {
       rules: {
         username: {
           required: true,
-          validator: checkCustomerUsername,
+          validator: checkUsername,
           trigger: "blur",
         },
         password: {

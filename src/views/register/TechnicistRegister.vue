@@ -107,20 +107,20 @@ export default {
   //import引入的组件需要注入到对象中才能使用
   components: { Register},
   data() {
-    // let checkCustomerUsername = (rule, value, callback) => {
-    //   this.$API.register
-    //     .checkCustomerUsername(this.technicistInfo.username)
-    //     .then((res) => {
-    //       if (value === undefined) {
-    //         return callback(new Error("该用户名不能为空"));
-    //       }
-    //       if (res.data.status == 100) {
-    //         return callback(new Error("该用户名已经被注册"));
-    //       } else {
-    //         return callback();
-    //       }
-    //     });
-    // };
+    let checkUsername = (rule, value, callback) => {
+      this.$API.register
+        .checkUsername(this.technicistInfo.username)
+        .then((res) => {
+          if (value === undefined) {
+            return callback(new Error("该用户名不能为空"));
+          }
+          if (res.data.status == 100) {
+            return callback(new Error("该用户名已经被注册"));
+          } else {
+            return callback();
+          }
+        });
+    };
     //这里存放数据
     return {
       technicistInfo: {
@@ -133,11 +133,11 @@ export default {
       register_district: "",
       // 表单验证
       rules: {
-        // username: {
-        //   required: true,
-        //   validator: checkCustomerUsername,
-        //   trigger: "blur",
-        // },
+        username: {
+          required: true,
+          validator: checkUsername,
+          trigger: "blur",
+        },
         password: {
           required: true,
           message: "密码不能为空",

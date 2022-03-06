@@ -103,20 +103,20 @@ export default {
   //import引入的组件需要注入到对象中才能使用
   components: { Register },
   data() {
-    // let checkVolunteerUsername = (rule, value, callback) => {
-    //   this.$API.register
-    //     .checkVolunteerUsername(this.volunteerInfo.username)
-    //     .then((res) => {
-    //       if (value === undefined) {
-    //         return callback(new Error("该用户名不能为空"));
-    //       }
-    //       if (res.data.status == 100) {
-    //         return callback(new Error("该用户名已经被注册"));
-    //       } else {
-    //         return callback();
-    //       }
-    //     });
-    // };
+    let checkUsername = (rule, value, callback) => {
+      this.$API.register
+        .checkUsername(this.volunteerInfo.username)
+        .then((res) => {
+          if (value === undefined) {
+            return callback(new Error("该用户名不能为空"));
+          }
+          if (res.data.status == 100) {
+            return callback(new Error("该用户名已经被注册"));
+          } else {
+            return callback();
+          }
+        });
+    };
     //这里存放数据
     return {
       volunteerInfo: {},
@@ -128,11 +128,11 @@ export default {
       register_district: "",
       // 表单验证
       rules: {
-        // username: {
-        //   required: true,
-        //   validator: checkCustomerUsername,
-        //   trigger: "blur",
-        // },
+        username: {
+          required: true,
+          validator: checkUsername,
+          trigger: "blur",
+        },
         password: {
           required: true,
           message: "密码不能为空",
@@ -162,17 +162,13 @@ export default {
   watch: {},
   //方法集合
   methods: {
-    // getFileList(fileList) {
-    //   // 图片选定后自动提交给服务器，反正个人信息里有url即可
-    //   // 也可以进行删除服务器图片操作，这里先不加了，不影响
-    //   this.volunteerInfo.picture = fileList.map((item) => item.response);
-    // },
+  
     submitForm(formName) {
       // 加密
       const md5 = this.$crypto.createHash("md5");
       md5.update(this.volunteerInfo.password);
       this.volunteerInfo.password = md5.digest("hex");
-      
+
       this.$refs[formName].validate((valid) => {
         // json转化为string格式，不然后端和前端字符不匹配
         this.volunteerInfo.site = this.volunteerInfo.site.join(",");
