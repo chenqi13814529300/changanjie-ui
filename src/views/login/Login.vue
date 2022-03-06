@@ -14,7 +14,7 @@
           placeholder="请输入用户名"
         ></el-input>
       </el-form-item>
-  
+
       <el-form-item label="密码" prop="password">
         <el-input
           v-model="loginInfo.password"
@@ -44,7 +44,6 @@
 <script>
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
-
 export default {
   //import引入的组件需要注入到对象中才能使用
   components: {},
@@ -71,11 +70,36 @@ export default {
   //监控data中的数据变化
   watch: {},
   //方法集合
-  methods: {},
+  methods: {
+    submitForm(formName) {
+      const md5 = this.$crypto.createHash("md5");
+      md5.update(this.loginInfo.password);
+      this.loginInfo.password = md5.digest("hex");
+      this.$refs[formName].validate((valid) => {
+        console.log(this.loginInfo);
+        this.$API.login.login(this.loginInfo).then((res) => {
+          console.log(res);
+        });
+      });
+    },
+  },
   //生命周期 - 创建完成（可以访问当前this实例）
   created() {},
   //生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {},
+  mounted() {
+    //使用示例
+    // let password = "123456";
+    // const md5 = crypto.createHash("md5");
+    // md5.update(password);
+    // password = md5.digest("hex"); //md5password为加密后的内容，可直接传递给后端
+
+    // let password="14323415"
+    // const md5=this.$crypto.createHash("md5")
+    // md5.update(password)
+    // password = md5.digest("hex");
+    // console.log(password);
+
+  },
   beforeCreate() {}, //生命周期 - 创建之前
   beforeMount() {}, //生命周期 - 挂载之前
   beforeUpdate() {}, //生命周期 - 更新之前
@@ -86,11 +110,11 @@ export default {
 };
 </script>
 <style scoped lang="less">
-#login{
-     margin: auto;
-    width: 50%;
+#login {
+  margin: auto;
+  width: 50%;
 }
-/deep/.el-select{
+/deep/.el-select {
   display: block;
 }
 /*@import url(); 引入公共css类*/

@@ -17,6 +17,7 @@
         </el-form-item>
         <el-form-item label="密码" prop="password">
           <el-input
+            type="password"
             v-model="volunteerInfo.password"
             placeholder="请输入密码"
           ></el-input>
@@ -51,7 +52,7 @@
           ></el-input>
         </el-form-item>
 
-<el-form-item label="学校" prop="school">
+        <el-form-item label="学校" prop="school">
           <el-input
             v-model="volunteerInfo.school"
             placeholder="请输入学校"
@@ -65,16 +66,15 @@
         </el-form-item>
 
         <el-form-item label="所在地" prop="site">
-            <el-cascader
+          <el-cascader
             class="elCascader"
-              size="large"
-              :options="siteOptions"
-              v-model="volunteerInfo.selectedOptions"
-              @change="handleChange"
-            >
-            </el-cascader>
+            size="large"
+            :options="siteOptions"
+            v-model="volunteerInfo.selectedOptions"
+            @change="handleChange"
+          >
+          </el-cascader>
         </el-form-item>
-
 
         <el-form-item label="详细地址" prop="detailAddress">
           <el-input
@@ -82,7 +82,7 @@
             placeholder="请输入产品详细地址"
           ></el-input>
         </el-form-item>
-    
+
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleSubmit')"
             >提交</el-button
@@ -101,7 +101,7 @@ import { regionData, CodeToText } from "element-china-area-data";
 
 export default {
   //import引入的组件需要注入到对象中才能使用
-  components: { Register},
+  components: { Register },
   data() {
     // let checkVolunteerUsername = (rule, value, callback) => {
     //   this.$API.register
@@ -119,8 +119,7 @@ export default {
     // };
     //这里存放数据
     return {
-      volunteerInfo: {
-      },
+      volunteerInfo: {},
       // 地区海量信息
       siteOptions: regionData,
       // 三级地区: 省 市 区
@@ -169,6 +168,11 @@ export default {
     //   this.volunteerInfo.picture = fileList.map((item) => item.response);
     // },
     submitForm(formName) {
+      // 加密
+      const md5 = this.$crypto.createHash("md5");
+      md5.update(this.volunteerInfo.password);
+      this.volunteerInfo.password = md5.digest("hex");
+      
       this.$refs[formName].validate((valid) => {
         // json转化为string格式，不然后端和前端字符不匹配
         this.volunteerInfo.site = this.volunteerInfo.site.join(",");
@@ -207,7 +211,7 @@ export default {
 </script>
 <style scoped lang="less">
 /*@import url(); 引入公共css类*/
-.elCascader{
+.elCascader {
   position: absolute;
   left: 0;
 }

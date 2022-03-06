@@ -15,8 +15,9 @@
             placeholder="请输入用户名"
           ></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="password">
+        <el-form-item label="密码"  prop="password">
           <el-input
+              type="password"
             v-model="merchantInfo.password"
             placeholder="请输入密码"
           ></el-input>
@@ -190,6 +191,12 @@ export default {
       this.merchantInfo.craftImg = fileList.map((item) => item.response);
     },
     submitForm(formName) {
+     // 加密
+      const md5 = this.$crypto.createHash("md5");
+      md5.update(this.merchantInfo.password);
+      this.merchantInfo.password = md5.digest("hex");
+
+
       this.$refs[formName].validate((valid) => {
         // json转化为string格式，不然后端和前端字符不匹配
         this.merchantInfo.site = this.merchantInfo.site.join(",");

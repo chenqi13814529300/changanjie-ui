@@ -4,9 +4,12 @@ import router from './router'
 import store from './store'
 import API from './api'
 import 'element-ui/lib/theme-chalk/index.css'
+import crypto from "crypto";
 
 import ElementUI from 'element-ui'
 Vue.prototype.$API = API
+Vue.prototype.$crypto = crypto
+
 Vue.use(ElementUI)
 
 Vue.config.productionTip = false

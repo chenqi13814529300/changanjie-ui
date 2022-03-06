@@ -18,8 +18,9 @@
         </el-form-item>
         <!-- 机构名称 end -->
         <!-- 机构名称 start -->
-        <el-form-item label="密码" prop="password">
+        <el-form-item label="密码"  prop="password">
           <el-input
+              type="password"
             v-model="technicistInfo.password"
             placeholder="请输入密码"
           ></el-input>
@@ -167,6 +168,11 @@ export default {
   //方法集合
   methods: {
     submitForm(formName) {
+     // 加密
+      const md5 = this.$crypto.createHash("md5");
+      md5.update(this.technicistInfo.password);
+      this.technicistInfo.password = md5.digest("hex");
+
       this.$refs[formName].validate((valid) => {
         // json转化为string格式，不然后端和前端字符不匹配
         this.technicistInfo.site = this.technicistInfo.site.join(",");
