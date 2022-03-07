@@ -11,7 +11,7 @@
       <div class="left">
         <div>
           <div class="title">
-            <span>最新简略消息</span>
+            <img src="@/assets/image/01.png" alt="" />
           </div>
           <p>1、dd最最新简略消息新简略消息d</p>
           <p>2、d最最新简略消息新简略消息d</p>
@@ -21,13 +21,16 @@
           <p>6、d最最新简略消息新简略消息d</p>
           <p>7、dd最最新简略消息新简略消息d</p>
           <p>8、dd最最新简略消息新简略消息d</p>
+          <p>9、dd最最新简略消息新简略消息d</p>
         </div>
       </div>
-      <div class="center"></div>
+      <div class="center">
+          <my-map></my-map>
+      </div>
       <div class="right">
         <div>
           <div class="title">
-            <span>最新简略消息</span>
+            <img src="@/assets/image/03.png" alt="" />
           </div>
           <p>申请志愿者</p>
           <p>申请消费者</p>
@@ -42,10 +45,10 @@
 <script>
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
-
+import myMap from "@/components/common/Map";
 export default {
   //import引入的组件需要注入到对象中才能使用
-  components: {},
+  components: { myMap },
   data() {
     //这里存放数据
     return {
@@ -89,7 +92,7 @@ export default {
 }
 .contentBox {
   width: 100%;
-  height: 18rem;
+  height: 20rem;
   background-color: rgb(212, 212, 212);
   display: flex;
   padding: 2% 0;
@@ -113,11 +116,14 @@ export default {
       .title {
         width: 7rem;
         height: 1.2rem;
-        line-height: 1.2rem;
-        border-radius: 0.5rem;
-        text-align: center;
-        background-color: rgb(236, 142, 54);
+        // line-height: 1.2rem;
+        // border-radius: 0.5rem;
+        // text-align: center;
+        // background-color: rgb(236, 142, 54);
         margin-bottom: 1rem;
+        img {
+          height: 100%;
+        }
       }
       p {
         margin: 0.4rem 0;
@@ -127,6 +133,7 @@ export default {
   }
   .center {
     flex: 5;
+    position: relative;
   }
   .right {
     flex: 3;
@@ -143,16 +150,14 @@ export default {
       .title {
         width: 7rem;
         height: 1.2rem;
-        line-height: 1.2rem;
-        border-radius: 0.5rem;
-        text-align: center;
-        background-color: rgb(236, 142, 54);
         margin-bottom: 1rem;
+        img {
+          height: 100%;
+        }
       }
       p {
         margin: 0.4rem 0;
         letter-spacing: 0.3rem;
-
       }
     }
   }

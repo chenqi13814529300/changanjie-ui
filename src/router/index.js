@@ -11,7 +11,6 @@ import Login from '@/views/login/Login'
 
 
 
-
 Vue.use(VueRouter)
 
 const routes = [
@@ -21,7 +20,11 @@ const routes = [
   component: () => import('@/views/home/Home'),
 },
 
-
+{
+  path: '/map',
+  name: 'Map',
+  component: () => import('@/components/common/Map'),
+},
 
 
 

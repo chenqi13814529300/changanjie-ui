@@ -5,7 +5,10 @@ import store from './store'
 import API from './api'
 import 'element-ui/lib/theme-chalk/index.css'
 import crypto from "crypto";
-
+import * as echarts from 'echarts'
+import '../public/static/theme/chalk';
+import '../public/static/theme/vintage';
+Vue.prototype.$echarts = echarts
 import ElementUI from 'element-ui'
 Vue.prototype.$API = API
 Vue.prototype.$crypto = crypto
