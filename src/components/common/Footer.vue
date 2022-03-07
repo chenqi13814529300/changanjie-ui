@@ -62,7 +62,7 @@ export default {
 <style scoped lang="less">
 .myFooter {
   width: 100%;
-  height: 24%;
+  height: 10rem;
   display: flex;
   .left {
     display: flex;

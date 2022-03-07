@@ -1,7 +1,7 @@
 <!--  -->
 <template>
-  <div id="register">
-    <slot></slot>
+  <div class="changanjie">
+    <img src="@/assets/image/vr.png" alt="" />
   </div>
 </template>
 
@@ -37,31 +37,15 @@ export default {
 </script>
 <style scoped lang="less">
 /*@import url(); 引入公共css类*/
-#register {
-  width: 100%;
-  //   background: url(~@/assets/image/register.jpg) no-repeat;
-  background-size: 100%;
-}
-
-/deep/.el-input__inner {
-  width: 20rem;
-}
-
-// slot
-.register {
-  width: 100%;
-  height: 100%;
-}
-.title {
-  padding: 1rem 0;
-  font-size: 1.5rem;
-  line-height: 3rem;
-  text-align: center;
-}
-.myForm {
+.changanjie {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color:  rgb(212, 212, 212);
+  img {
+    margin: 0 auto;
+
+    width: 80%;
+  }
 }
 </style>

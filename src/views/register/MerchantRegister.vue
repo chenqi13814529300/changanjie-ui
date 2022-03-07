@@ -1,9 +1,10 @@
 <!--  -->
 <template>
-  <div class="scutomer_register">
+  <div class="register">
     <register>
-      <h2 class="title">脱贫者注册</h2>
+      <p class="title">脱贫者注册</p>
       <el-form
+      class="myForm"
         :model="merchantInfo"
         :rules="rules"
         ref="ruleSubmit"
@@ -239,11 +240,6 @@ export default {
 };
 </script>
 <style scoped lang="less">
-/*@import url(); 引入公共css类*/
-.elCascader {
-  position: absolute;
-  left: 0;
-}
 
 /deep/.el-switch {
   display: block;

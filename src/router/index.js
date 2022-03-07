@@ -21,14 +21,21 @@ const routes = [
 },
 
 {
-  path: '/map',
-  name: 'Map',
-  component: () => import('@/components/common/Map'),
+  path: '/changanjie',
+  name: 'ChangAnJie',
+  component: () => import('@/views/changanjie/ChangAnJie'),
 },
 
-
-
-
+{
+  path: '/team',
+  name: 'Team',
+  component: () => import('@/views/team/Team'),
+},
+{
+  path: '/product',
+  name: 'Product',
+  component: () => import('@/views/product/Product'),
+},
 
 
   {

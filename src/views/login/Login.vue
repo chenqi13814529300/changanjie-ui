@@ -1,8 +1,9 @@
 <!--  -->
 <template>
   <div id="login">
-    <h2>用户登录</h2>
+    <p class="title">用户登录</p>
     <el-form
+    class="myForm"
       :model="loginInfo"
       :rules="rules"
       ref="ruleSubmit"
@@ -111,11 +112,31 @@ export default {
 </script>
 <style scoped lang="less">
 #login {
-  margin: auto;
-  width: 50%;
+  width: 100%;
+  height: 70%;
+  background: url(~@/assets/image/loginBg.jpg);
+  background-size: 100%;
+  position: relative;
+  .title{
+    padding-top: 2rem;
+    font-size: 1.5rem;
+    line-height: 3rem;
+    text-align: center;
+  }
+  .myForm{
+    position: absolute;
+    margin: auto;
+    // width: 50%;
+    top: 7rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
 /deep/.el-select {
   display: block;
+}
+/deep/.el-input__inner{
+  width: 20rem;
 }
 /*@import url(); 引入公共css类*/
 </style>

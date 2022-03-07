@@ -9,7 +9,6 @@
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
 import axios from "axios";
-import { getProvinceMapInfo } from "@/utils/map_utils.js";
 export default {
   //import引入的组件需要注入到对象中才能使用
   components: {},
@@ -27,16 +26,6 @@ export default {
   },
   //监控data中的数据变化
   watch: {
-    theme() {
-      // 当前图表销毁
-      this.chartInstance.dispose();
-      // 以最新的主题初始化图表对象
-      this.initChart();
-      // 屏幕适配
-      // this.screenAdapter();
-      // 更新图表的展示
-      // this.updateChart();
-    },
   },
   //方法集合
   methods: {
@@ -111,7 +100,6 @@ export default {
     },
     screenAdapter() {
       const titleFontSize = (this.$refs.map_ref.offsetWidth / 100) * 3.6;
-
       const adapterOption = {
         title: {
           textStyle: {
@@ -143,21 +131,15 @@ export default {
 
   //生命周期 - 创建完成（可以访问当前this实例）
   created() {
-    // this.$socket.registerCallBack("mapData", this.getData);
 
   },
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
     this.initChart();
     this.getData()
-    //    this.$socket.send({
-    //   action: "getData",
-    //   socketType: "mapData",
-    //   chartName: "map",
-    //   value: "",
-    // });
-    // window.addEventListener("resize", this.screenAdapter);
-    // this.screenAdapter();
+
+    window.addEventListener("resize", this.screenAdapter);
+    this.screenAdapter();
   },
   beforeCreate() {}, //生命周期 - 创建之前
   beforeMount() {}, //生命周期 - 挂载之前
@@ -165,9 +147,8 @@ export default {
   updated() {}, //生命周期 - 更新之后
   beforeDestroy() {}, //生命周期 - 销毁之前
   destroyed() {
-    // this.$socket.unrRegisterCallBack("mapData");
 
-    // window.removeEventListener("resize", this.screenAdapter);
+    window.removeEventListener("resize", this.screenAdapter);
   }, //生命周期 - 销毁完成
   activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 };

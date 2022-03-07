@@ -25,17 +25,19 @@
         </div>
       </div>
       <div class="center">
-          <my-map></my-map>
+        <my-map></my-map>
       </div>
       <div class="right">
         <div>
           <div class="title">
             <img src="@/assets/image/03.png" alt="" />
           </div>
-          <p>申请志愿者</p>
-          <p>申请消费者</p>
-          <p>申请技术提供者</p>
-          <p>申请商铺</p>
+          <router-link to="/volunteerRegister"><p>申请志愿者</p></router-link>
+          <router-link to="/customerRegister"> <p>申请消费者</p></router-link>
+          <router-link to="/technicistRegister"
+            ><p>申请技术提供者</p></router-link
+          >
+          <router-link to="/merchantRegister"><p>申请商铺</p></router-link>
         </div>
       </div>
     </div>
@@ -107,19 +109,16 @@ export default {
     font-size: 0.8rem;
     overflow: hidden;
     > div {
-      width: 90%;
+      padding-left: 15%;
+      width: 100%;
       position: absolute;
       top: 10%;
       left: 50%;
-      padding-bottom: 10%;
+      bottom: 10%;
       transform: translateX(-50%);
       .title {
         width: 7rem;
         height: 1.2rem;
-        // line-height: 1.2rem;
-        // border-radius: 0.5rem;
-        // text-align: center;
-        // background-color: rgb(236, 142, 54);
         margin-bottom: 1rem;
         img {
           height: 100%;

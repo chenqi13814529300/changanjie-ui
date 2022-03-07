@@ -1,9 +1,10 @@
 <!--  -->
 <template>
-  <div class="scutomer_register">
+  <div class="register">
     <register>
-      <h2 class="title">志愿者注册</h2>
+      <p class="title">志愿者注册</p>
       <el-form
+      class="myForm"
         :model="volunteerInfo"
         :rules="rules"
         ref="ruleSubmit"
@@ -207,11 +208,5 @@ export default {
 </script>
 <style scoped lang="less">
 /*@import url(); 引入公共css类*/
-.elCascader {
-  position: absolute;
-  left: 0;
-}
-// /deep/.el-input__inner{
-//   width: 300px;
-// }
+
 </style>
