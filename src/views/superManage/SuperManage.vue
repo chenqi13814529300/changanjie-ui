@@ -1,20 +1,38 @@
 <!--  -->
 <template>
-  <div id="register">
-    <slot></slot>
+  <div class="">
+    <el-col :span="4">
+      <menu-manage :menus="menus"></menu-manage>
+    </el-col>
+    <el-col :span="20">
+      <router-view></router-view>
+    </el-col>
   </div>
 </template>
 
 <script>
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
-
+import MenuManage from "@/components/common/MenuManage";
 export default {
   //import引入的组件需要注入到对象中才能使用
-  components: {},
+  components: { MenuManage },
   data() {
     //这里存放数据
-    return {};
+    return {
+      menus: [
+        {
+          name: "待审核",
+          url: "/superManage/pending",
+          icon: "el-icon-location",
+        },
+        {
+          name: "贫困点管理",
+          url: "/superManage/povertyListManage",
+          icon: "el-icon-location",
+        },
+      ],
+    };
   },
   //监听属性 类似于data概念
   computed: {},
@@ -35,43 +53,6 @@ export default {
   activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 };
 </script>
-<style scoped lang="less">
+<style scoped>
 /*@import url(); 引入公共css类*/
-#register {
-  width: 100%;
-  background-size: 100%;
-}
-
-/deep/.el-input__inner {
-  width: 20rem;
-}
-/deep/.el-textarea{
-  width: 20rem;
-}
-/deep/.el-button{
-  margin: 0 2rem;
-}
-/deep/.el-form-item__content{
-  text-align: left;
-}
-
-
-// slot
-.register {
-  width: 100%;
-  text-align: center;
-}
-.title {
-  padding: 1rem 0;
-  font-size: 1.5rem;
-  line-height: 3rem;
-  text-align: center;
-}
-.myForm {
-  display: inline-block;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
 </style>

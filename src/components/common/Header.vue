@@ -2,11 +2,11 @@
 <template>
   <div class="myHeader">
     <div class="top">
-      <div class="logo">
+      <div class="logo swing_left">
         <img src="@/assets/image/logo.png" alt="" />
       </div>
-      <div class="navBar">
-        <div class="content">
+      <div class="navBar swing_right ">
+        <div class="content ">
           <div v-for="(item, index) in titles" :key="index">
             <router-link :to="item.url">
               <span
@@ -15,30 +15,31 @@
                 >{{ item.name }}</span
               >
             </router-link>
-
             <span>/</span>
           </div>
           <div>
             <span class="login" @click="toLongin">登录</span>
             <span>·</span>
-            <span class="register" @click="dialogFormVisible=true">注册</span>
+            <span class="register" @click="dialogFormVisible = true">注册</span>
+          </div>
+          <div class="loginStatus" v-if="isLogin">
+            <span><i class="el-icon-user"></i>{{ getLoginInfo.username }}</span>
+            <span @click="loginOut">退出</span>
           </div>
         </div>
       </div>
     </div>
 
-    <el-dialog title="注册角色"  width="20rem" :visible.sync="dialogFormVisible">
-        <el-select v-model="selectRole" placeholder="请选择注册的角色">
-          <el-option label="消费者" value="/customerRegister"></el-option>
-          <el-option label="商户" value="/merchantRegister"></el-option>
-          <el-option label="志愿者" value="/volunteerRegister"></el-option>
-          <el-option label="技术提供者" value="/technicistRegister"></el-option>
-        </el-select>
+    <el-dialog title="注册角色" width="20rem" :visible.sync="dialogFormVisible">
+      <el-select v-model="selectRole" placeholder="请选择注册的角色">
+        <el-option label="消费者" value="/customerRegister"></el-option>
+        <el-option label="商户" value="/merchantRegister"></el-option>
+        <el-option label="志愿者" value="/volunteerRegister"></el-option>
+        <el-option label="技术提供者" value="/technicistRegister"></el-option>
+      </el-select>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="toRegister"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="toRegister">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -47,7 +48,7 @@
 <script>
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
-
+import { mapGetters, mapMutations } from "vuex";
 export default {
   //import引入的组件需要注入到对象中才能使用
   components: {},
@@ -75,15 +76,30 @@ export default {
       ],
       currentIndex: 0,
       selectRole: null,
-      dialogFormVisible:false
+      dialogFormVisible: false,
     };
   },
   //监听属性 类似于data概念
-  computed: {},
+  computed: {
+    ...mapGetters(["getLoginInfo"]),
+    isLogin() {
+      // 放置刷新丢失vuex，这里再次从localStorage中获取并给vuex
+      let user = localStorage.getItem("user");
+      user = JSON.parse(user);
+      this.setLoginInfo(user);
+      if (this.getLoginInfo) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  },
   //监控data中的数据变化
   watch: {},
   //方法集合
   methods: {
+    ...mapMutations(["setLoginInfo"]),
+
     itemClick(index) {
       this.currentIndex = index;
     },
@@ -91,10 +107,16 @@ export default {
       this.$router.push("/login");
     },
 
-    toRegister(){
-      this.dialogFormVisible=false;
-      this.$router.push(this.selectRole)
-    }
+    toRegister() {
+      this.dialogFormVisible = false;
+      this.$router.push(this.selectRole);
+    },
+    loginOut() {
+      this.setLoginInfo(null);
+      localStorage.removeItem("user");
+      this.$router.push("/");
+      this.$message.success("退出成功");
+    },
   },
   //生命周期 - 创建完成（可以访问当前this实例）
   created() {},
@@ -112,9 +134,12 @@ export default {
 <style scoped lang="less">
 /*@import url(); 引入公共css类*/
 .myHeader {
+  // position: sticky;
+  // top: 0;
   width: 100%;
   height: 7rem;
   background-color: rgb(212, 212, 212);
+  z-index: 9999;
 }
 .top {
   height: 82%;
@@ -138,7 +163,7 @@ export default {
     .content {
       margin-left: 12%;
       height: 100%;
-      width: 80%;
+      width: 85%;
       display: flex;
       align-items: center;
       justify-content: right;
@@ -147,6 +172,19 @@ export default {
           cursor: pointer;
           margin: 0 0.4rem;
           letter-spacing: 0.3rem;
+        }
+      }
+      // 登录状态
+      .loginStatus {
+        
+        span {
+          font-size: 0.9rem;
+          color: rgb(81, 139, 4);
+          letter-spacing: 0;
+        }
+        span:nth-child(2) {
+          font-size: 0.8rem;
+          color: red;
         }
       }
       .login {
@@ -166,15 +204,17 @@ export default {
   padding: 0.3rem 0.3rem;
 }
 
-
 // 模态框
-/deep/.el-dialog{
+/deep/.el-dialog {
   text-align: center;
 }
-/deep/.el-dialog__footer{
+/deep/.el-dialog__footer {
   text-align: center;
-  .el-button{
+  .el-button {
     margin: 0 1rem;
   }
 }
+
+
+
 </style>

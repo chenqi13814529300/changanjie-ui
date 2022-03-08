@@ -106,10 +106,10 @@ export default {
 };
 </script>
 <style scoped lang="less">
-.imgUpload {
-  position: absolute;
-  left: 0;
-}
+// .imgUpload {
+//   position: absolute;
+//   left: 0;
+// }
 /deep/.el-upload--picture-card {
   width: 110px;
   height: 110px;

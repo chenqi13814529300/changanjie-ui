@@ -1,21 +1,15 @@
-
+<!--  -->
 <template>
-  <div id="app">
-     <my-header>
-    </my-header>
-    <router-view/>
-    <my-footer></my-footer>
-  </div>
+<div class=''>2</div>
 </template>
+
 <script>
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
-import myHeader from '@/components/common/Header.vue';
-import myFooter from '@/components/common/Footer.vue';
-
+//例如：import 《组件名称》 from '《组件路径》';
 
 export default {
 //import引入的组件需要注入到对象中才能使用
-components: {myHeader,myFooter},
+components: {},
 data() {
 //这里存放数据
 return {
@@ -48,10 +42,6 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 }
 </script>
 <style scoped>
-@import "~@/assets/css/base.css";
-#app{
-    width: 100%;
-    height: 100vh;
-}
+/*@import url(); 引入公共css类*/
 
 </style>

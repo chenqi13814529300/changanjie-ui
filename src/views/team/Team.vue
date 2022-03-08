@@ -2,7 +2,7 @@
 <template>
   <div class="team">
     <div class="headerImgsBox">
-      <div v-for="(item, index) in headerImgs" :key="index">
+      <div v-for="(item, index) in headerImgs" :key="index" class="slideDown">
         <img :src="require(`@/assets/image/${item}`)" alt="" />
         <div class="text">成员一</div>
         <div class="introduce">
@@ -12,9 +12,8 @@
           <p>擅长领域：</p>
         </div>
       </div>
-     
     </div>
-     <div class="bg"></div>
+    <div class="bg"></div>
   </div>
 </template>
 
@@ -58,10 +57,9 @@ export default {
 };
 </script>
 <style scoped lang="less">
-
-.team{
-    width: 100%;
-    position: relative;
+.team {
+  width: 100%;
+  position: relative;
 }
 .headerImgsBox {
   display: flex;
@@ -87,16 +85,18 @@ export default {
       height: 12rem;
       z-index: 99;
       font-weight: 400;
-      letter-spacing: .2rem;
+      letter-spacing: 0.2rem;
     }
   }
 }
 
-.bg{
-      background-color: rgb(212, 212, 212);
-      width: 100%;
-      height: 14rem;
-      position: absolute;
-    bottom: 0;
+.bg {
+  background-color: rgb(212, 212, 212);
+  width: 100%;
+  height: 14rem;
+  position: absolute;
+  bottom: 0;
 }
+
+
 </style>

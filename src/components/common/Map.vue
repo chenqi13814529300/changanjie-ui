@@ -39,7 +39,7 @@ export default {
       console.log(ret);
       const initOption = {
         title: {
-          text: "｜商家分布",
+          text: "｜人员分布",
           left: 20,
           top: 20,
         },

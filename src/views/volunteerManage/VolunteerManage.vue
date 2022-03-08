@@ -1,7 +1,12 @@
 <!--  -->
 <template>
-  <div id="register">
-    <slot></slot>
+  <div class="">
+    <el-col :span="4">
+      <menu-manage :menus="menus"></menu-manage>
+    </el-col>
+    <el-col :span="20">
+      <router-view></router-view>
+    </el-col>
   </div>
 </template>
 
@@ -14,7 +19,20 @@ export default {
   components: {},
   data() {
     //这里存放数据
-    return {};
+    return {
+      menus: [
+        {
+          name: "申报贫困点",
+          url: "/volunteerManage/declare",
+          icon: "el-icon-location",
+        },
+        {
+          name: "全部申报点",
+          url: "/volunteerManage/povertyList",
+          icon: "el-icon-location",
+        },
+      ],
+    };
   },
   //监听属性 类似于data概念
   computed: {},
@@ -35,43 +53,6 @@ export default {
   activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 };
 </script>
-<style scoped lang="less">
+<style scoped>
 /*@import url(); 引入公共css类*/
-#register {
-  width: 100%;
-  background-size: 100%;
-}
-
-/deep/.el-input__inner {
-  width: 20rem;
-}
-/deep/.el-textarea{
-  width: 20rem;
-}
-/deep/.el-button{
-  margin: 0 2rem;
-}
-/deep/.el-form-item__content{
-  text-align: left;
-}
-
-
-// slot
-.register {
-  width: 100%;
-  text-align: center;
-}
-.title {
-  padding: 1rem 0;
-  font-size: 1.5rem;
-  line-height: 3rem;
-  text-align: center;
-}
-.myForm {
-  display: inline-block;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
 </style>
