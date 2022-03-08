@@ -96,7 +96,7 @@
 </template>
 
 <script>
-import Register from "../../components/common/Register.vue";
+import Register from "@/components/common/Register.vue";
 // 三级地区引入
 import { regionData, CodeToText } from "element-china-area-data";
 

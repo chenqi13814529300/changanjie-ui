@@ -4,7 +4,7 @@
     <register>
       <p class="title">消费者注册</p>
       <el-form
-      class="myForm"
+        class="myForm"
         :model="customerInfo"
         :rules="rules"
         ref="ruleSubmit"
@@ -37,6 +37,7 @@
 
         <el-form-item label="年龄" prop="age">
           <el-input
+            type="number"
             v-model="customerInfo.age"
             placeholder="请输入年龄"
           ></el-input>
@@ -44,6 +45,7 @@
         <!-- 手机号 start -->
         <el-form-item label="手机号" prop="phone">
           <el-input
+            type="tel"
             v-model="customerInfo.phone"
             placeholder="请输入手机号"
           ></el-input>
@@ -86,29 +88,33 @@
 </template>
 
 <script>
-import Register from "../../components/common/Register.vue";
+import Register from "@/components/common/Register.vue";
 // 三级地区引入
 import { regionData, CodeToText } from "element-china-area-data";
-import ImgUpload from "../../components/common/ImgUpload.vue";
-
+import ImgUpload from "@/components/common/ImgUpload.vue";
+import {
+  checkEmail,
+  checkTeleNumber,
+  checkAge
+} from "@/utils/verification.js";
 export default {
   //import引入的组件需要注入到对象中才能使用
   components: { Register, ImgUpload },
   data() {
-    let checkUsername = (rule, value, callback) => {
-      this.$API.register
-        .checkUsername(this.customerInfo.username)
-        .then((res) => {
-          if (value === undefined) {
-            return callback(new Error("该用户名不能为空"));
-          }
-          if (res.data.status == 100) {
-            return callback(new Error("该用户名已经被注册"));
-          } else {
-            return callback();
-          }
-        });
-    };
+    // let checkUsername = (rule, value, callback) => {
+    //   this.$API.register
+    //     .checkUsername(value)
+    //     .then((res) => {
+    //       if (value === undefined) {
+    //         return callback(new Error("该用户名不能为空"));
+    //       }
+    //       if (res.data.status == 100) {
+    //         return callback(new Error("该用户名已经被注册"));
+    //       } else {
+    //         return callback("该用户名可以注册");
+    //       }
+    //     });
+    // };
     //这里存放数据
     return {
       customerInfo: {},
@@ -122,7 +128,7 @@ export default {
       rules: {
         username: {
           required: true,
-          validator: checkUsername,
+          validator: this.checkUsername(),
           trigger: "blur",
         },
         password: {
@@ -130,9 +136,24 @@ export default {
           message: "密码不能为空",
           trigger: "blur",
         },
+        age:{
+          required:true,
+          validator:checkAge(),
+          trigger:'blur'
+        },
+        realName: {
+          required: true,
+          message: "真实姓名不能为空",
+          trigger: "blur",
+        },
         phone: {
           required: true,
-          message: "电话号码不能为空",
+          validator: checkTeleNumber(),
+          trigger: "blur",
+        },
+        email: {
+          required: true,
+          validator: checkEmail(),
           trigger: "blur",
         },
         site: {
@@ -154,6 +175,22 @@ export default {
   watch: {},
   //方法集合
   methods: {
+    checkUsername() {
+      let checkUsername = (rule, value, callback) => {
+        this.$API.register.checkUsername(value).then((res) => {
+          if (value === undefined) {
+            return callback(new Error("该用户名不能为空"));
+          }
+          if (res.data.status == 100) {
+            return callback(new Error("该用户名已经被注册"));
+          } else {
+            return callback("该用户名可以注册");
+          }
+        });
+      };
+      return checkUsername;
+    },
+
     getFileList(fileList) {
       // 图片选定后自动提交给服务器，反正个人信息里有url即可
       // 也可以进行删除服务器图片操作，这里先不加了，不影响
@@ -170,7 +207,11 @@ export default {
         this.customerInfo.site = this.customerInfo.site.join(",");
         console.log(this.customerInfo);
         this.$API.register.customerRegister(this.customerInfo).then((res) => {
-          console.log(res);
+          if (res.data.status == 200) {
+            this.$message.success("恭喜你，注册成功");
+          } else {
+            this.$message.error("注册失败");
+          }
         });
       });
     },
@@ -186,6 +227,9 @@ export default {
       ];
       console.log(this.customerInfo.site);
     },
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+      }
   },
   //生命周期 - 创建完成（可以访问当前this实例）
   created() {},
@@ -201,6 +245,4 @@ export default {
 };
 </script>
 <style scoped lang="less">
-
-
 </style>

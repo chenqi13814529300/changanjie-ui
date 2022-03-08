@@ -19,7 +19,7 @@
             <span>/</span>
           </div>
           <div>
-            <span class="login" @click="toLongin">登录</span>
+            <span class="login"  @click="toLongin">登录</span>
             <span>·</span>
             <span class="register" @click="dialogFormVisible=true">注册</span>
           </div>
@@ -99,7 +99,11 @@ export default {
   //生命周期 - 创建完成（可以访问当前this实例）
   created() {},
   //生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {},
+  mounted() {
+    console.log(this.$router.currentRoute.fullPath);
+    console.log(this.$route);
+
+  },
   beforeCreate() {}, //生命周期 - 创建之前
   beforeMount() {}, //生命周期 - 挂载之前
   beforeUpdate() {}, //生命周期 - 更新之前
@@ -112,9 +116,12 @@ export default {
 <style scoped lang="less">
 /*@import url(); 引入公共css类*/
 .myHeader {
+  // position: sticky;
+  // top: 0;
   width: 100%;
   height: 7rem;
   background-color: rgb(212, 212, 212);
+  z-index: 9999;
 }
 .top {
   height: 82%;

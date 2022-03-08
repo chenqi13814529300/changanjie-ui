@@ -3,7 +3,7 @@
   <div id="login">
     <p class="title">用户登录</p>
     <el-form
-    class="myForm"
+      class="myForm"
       :model="loginInfo"
       :rules="rules"
       ref="ruleSubmit"
@@ -79,6 +79,12 @@ export default {
       this.$refs[formName].validate((valid) => {
         console.log(this.loginInfo);
         this.$API.login.login(this.loginInfo).then((res) => {
+          if (res.data.status == 200) {
+            this.$message.success('恭喜你，登录成功');
+
+          }else{
+            this.$message.error('登录失败，请从新核实用户名密码与身份');
+          }
           console.log(res);
         });
       });
@@ -93,13 +99,11 @@ export default {
     // const md5 = crypto.createHash("md5");
     // md5.update(password);
     // password = md5.digest("hex"); //md5password为加密后的内容，可直接传递给后端
-
     // let password="14323415"
     // const md5=this.$crypto.createHash("md5")
     // md5.update(password)
     // password = md5.digest("hex");
     // console.log(password);
-
   },
   beforeCreate() {}, //生命周期 - 创建之前
   beforeMount() {}, //生命周期 - 挂载之前
@@ -117,13 +121,13 @@ export default {
   background: url(~@/assets/image/loginBg.jpg);
   background-size: 100%;
   position: relative;
-  .title{
+  .title {
     padding-top: 2rem;
     font-size: 1.5rem;
     line-height: 3rem;
     text-align: center;
   }
-  .myForm{
+  .myForm {
     position: absolute;
     margin: auto;
     // width: 50%;
@@ -135,7 +139,7 @@ export default {
 /deep/.el-select {
   display: block;
 }
-/deep/.el-input__inner{
+/deep/.el-input__inner {
   width: 20rem;
 }
 /*@import url(); 引入公共css类*/

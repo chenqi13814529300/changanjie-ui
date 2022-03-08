@@ -36,6 +36,44 @@ const routes = [
   name: 'Product',
   component: () => import('@/views/product/Product'),
 },
+// 管理页面
+{
+  path: '/volunteerManage',
+  name: 'VolunteerManage',
+  component: () => import('@/views/volunteerManage/VolunteerManage'),
+  redirect: 'volunteerManage/declare',
+  children:[
+    {
+      path: 'declare',
+      name: 'Declare',
+      component: () => import('@/views/volunteerManage/childComps/Declare'),
+    },
+    {
+      path: 'povertyList',
+      name: 'PovertyList',
+      component: () => import('@/views/volunteerManage/childComps/PovertyList'),
+    }
+  ]
+},
+{
+  path: '/merchantManage',
+  name: 'MerchantManage',
+  component: () => import('@/views/merchantManage/MerchantManage'),
+  redirect: 'merchantManage/aaa',
+  children:[
+    {
+      path: 'aaa',
+      name: 'aaa',
+      component: () => import('@/views/merchantManage/childComps/aaa'),
+    },
+    {
+      path: 'bbb',
+      name: 'bbb',
+      component: () => import('@/views/merchantManage/childComps/bbb'),
+    }
+  ]
+},
+
 
 
   {

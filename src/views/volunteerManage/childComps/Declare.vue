@@ -2,7 +2,7 @@
 <template>
   <div class="register">
     <register class="myReg">
-      <p class="title">脱贫者注册</p>
+      <p class="title">申报贫困点</p>
       <el-form
       class="myForm"
         :model="merchantInfo"
@@ -10,55 +10,7 @@
         ref="ruleSubmit"
         label-width="150px"
       >
-        <el-form-item label="用户名" prop="username">
-          <el-input
-            v-model="merchantInfo.username"
-            placeholder="请输入用户名"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="密码"  prop="password">
-          <el-input
-              type="password"
-            v-model="merchantInfo.password"
-            placeholder="请输入密码"
-          ></el-input>
-        </el-form-item>
-        <!-- 手机号 start -->
-        <el-form-item label="真实姓名" prop="realName">
-          <el-input
-            v-model="merchantInfo.realName"
-            placeholder="请输入真实姓名"
-          ></el-input>
-        </el-form-item>
-        <!-- 手机号 end -->
 
-        <el-form-item label="年龄" prop="age">
-          <el-input
-            v-model="merchantInfo.age"
-            placeholder="请输入年龄"
-          ></el-input>
-        </el-form-item>
-        <!-- 手机号 start -->
-        <el-form-item label="手机号" prop="phone">
-          <el-input
-            v-model="merchantInfo.phone"
-            placeholder="请输入手机号"
-          ></el-input>
-        </el-form-item>
-        <!-- 手机号 end -->
-        <el-form-item label="邮箱" prop="email">
-          <el-input
-            v-model="merchantInfo.email"
-            placeholder="请输入邮箱"
-          ></el-input>
-        </el-form-item>
-
-        <el-form-item label="目前年收入" prop="annualIncome">
-          <el-input
-            v-model="merchantInfo.annualIncome"
-            placeholder="请输入学校"
-          ></el-input>
-        </el-form-item>
         <el-form-item label="产品信息" prop="product">
           <el-input
             type="textarea"
@@ -84,19 +36,10 @@
             placeholder="请输入产品详细地址"
           ></el-input>
         </el-form-item>
-        <el-form-item label="产品详略图（至少上传两张不同角度的图片）">
+        <el-form-item label="实地考察图片（至少上传两张不同角度的图片）">
           <img-upload ref="imgUpload" @fileList="getProductImg"></img-upload>
         </el-form-item>
 
-        <el-form-item label="目前是否有加工工艺">
-          <el-switch v-model="merchantInfo.isCraft"></el-switch>
-        </el-form-item>
-        <el-form-item
-          v-if="merchantInfo.isCraft"
-          label="加工工艺详略图（至少上传两张不同角度的图片）"
-        >
-          <img-upload ref="imgUpload" @fileList="getCraftImg"></img-upload>
-        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleSubmit')"
             >提交</el-button
@@ -118,26 +61,10 @@ export default {
   //import引入的组件需要注入到对象中才能使用
   components: { Register, ImgUpload },
   data() {
-    let checkUsername = (rule, value, callback) => {
-      this.$API.register
-        .checkUsername(this.merchantInfo.username)
-        .then((res) => {
-          if (value === undefined) {
-            return callback(new Error("该用户名不能为空"));
-          }
-          if (res.data.status == 100) {
-            return callback(new Error("该用户名已经被注册"));
-          } else {
-            return callback();
-          }
-        });
-    };
     //这里存放数据
     return {
       merchantInfo: {
         productImg: null,
-        craftImg: null,
-        isCraft:false
       },
       // 地区海量信息
       siteOptions: regionData,
@@ -147,21 +74,6 @@ export default {
       register_district: "",
       // 表单验证
       rules: {
-        username: {
-          required: true,
-          validator: checkUsername,
-          trigger: "blur",
-        },
-        password: {
-          required: true,
-          message: "密码不能为空",
-          trigger: "blur",
-        },
-        phone: {
-          required: true,
-          message: "电话号码不能为空",
-          trigger: "blur",
-        },
         site: {
           required: true,
           message: "不能为空,请选择所处地址",
@@ -183,28 +95,15 @@ export default {
   methods: {
     //   产品详略图获取
     getProductImg(fileList) {
-      // 图片选定后自动提交给服务器，反正个人信息里有url即可
-      // 也可以进行删除服务器图片操作，这里先不加了，不影响
       this.merchantInfo.productImg = fileList.map((item) => item.response);
     },
-    //   加工工艺详略图获取
-    getCraftImg(fileList) {
-      this.merchantInfo.craftImg = fileList.map((item) => item.response);
-    },
-    submitForm(formName) {
-     // 加密
-      const md5 = this.$crypto.createHash("md5");
-      md5.update(this.merchantInfo.password);
-      this.merchantInfo.password = md5.digest("hex");
 
+    submitForm(formName) {
 
       this.$refs[formName].validate((valid) => {
         // json转化为string格式，不然后端和前端字符不匹配
         this.merchantInfo.site = this.merchantInfo.site.join(",");
         this.merchantInfo.productImg = this.merchantInfo.productImg.join(",");
-        if (this.merchantInfo.isCraft) {
-          this.merchantInfo.craftImg = this.merchantInfo.craftImg.join(",");
-        }
 
         console.log(this.merchantInfo);
 
