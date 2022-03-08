@@ -2,7 +2,7 @@
 <template>
   <div class="register">
     <register class="myReg">
-      <p class="title">脱贫者注册</p>
+      <p class="title">商户注册</p>
       <el-form
         class="myForm"
         :model="merchantInfo"
@@ -34,7 +34,7 @@
 
         <el-form-item label="年龄" prop="age">
           <el-input
-            v-model="merchantInfo.age"
+            v-model.number="merchantInfo.age"
             placeholder="请输入年龄"
           ></el-input>
         </el-form-item>
@@ -56,7 +56,7 @@
         <el-form-item label="目前年收入" prop="annualIncome">
           <el-input
             v-model="merchantInfo.annualIncome"
-            placeholder="请输入学校"
+            placeholder="请输入目前年收入"
           ></el-input>
         </el-form-item>
         <el-form-item label="产品信息" prop="product">
@@ -205,7 +205,7 @@ export default {
           if (res.data.status == 100) {
             return callback(new Error("该用户名已经被注册"));
           } else {
-            return callback("该用户名可以注册");
+            return callback();
           }
         });
       };

@@ -34,7 +34,7 @@
 
         <el-form-item label="年龄" prop="age">
           <el-input
-            v-model="volunteerInfo.age"
+            v-model.number="volunteerInfo.age"
             placeholder="请输入年龄"
           ></el-input>
         </el-form-item>
@@ -202,7 +202,7 @@ export default {
           if (res.data.status == 100) {
             return callback(new Error("该用户名已经被注册"));
           } else {
-            return callback("该用户名可以注册");
+            return callback();
           }
         });
       };

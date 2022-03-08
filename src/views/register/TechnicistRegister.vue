@@ -37,13 +37,14 @@
 
         <el-form-item label="年龄" prop="age">
           <el-input
-            v-model="technicistInfo.age"
+            v-model.number="technicistInfo.age"
             placeholder="请输入年龄"
           ></el-input>
         </el-form-item>
         <!-- 手机号 start -->
         <el-form-item label="手机号" prop="phone">
           <el-input
+          type="tel"
             v-model="technicistInfo.phone"
             placeholder="请输入手机号"
           ></el-input>
@@ -188,7 +189,7 @@ export default {
           if (res.data.status == 100) {
             return callback(new Error("该用户名已经被注册"));
           } else {
-            return callback("该用户名可以注册");
+            return callback();
           }
         });
       };
