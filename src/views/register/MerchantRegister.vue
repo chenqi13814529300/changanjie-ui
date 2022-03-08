@@ -4,7 +4,7 @@
     <register class="myReg">
       <p class="title">脱贫者注册</p>
       <el-form
-      class="myForm"
+        class="myForm"
         :model="merchantInfo"
         :rules="rules"
         ref="ruleSubmit"
@@ -16,9 +16,9 @@
             placeholder="请输入用户名"
           ></el-input>
         </el-form-item>
-        <el-form-item label="密码"  prop="password">
+        <el-form-item label="密码" prop="password">
           <el-input
-              type="password"
+            type="password"
             v-model="merchantInfo.password"
             placeholder="请输入密码"
           ></el-input>
@@ -113,31 +113,17 @@ import Register from "@/components/common/Register.vue";
 // 三级地区引入
 import { regionData, CodeToText } from "element-china-area-data";
 import ImgUpload from "@/components/common/ImgUpload.vue";
-
+import { checkEmail, checkTeleNumber, checkAge } from "@/utils/verification.js";
 export default {
   //import引入的组件需要注入到对象中才能使用
   components: { Register, ImgUpload },
   data() {
-    let checkUsername = (rule, value, callback) => {
-      this.$API.register
-        .checkUsername(this.merchantInfo.username)
-        .then((res) => {
-          if (value === undefined) {
-            return callback(new Error("该用户名不能为空"));
-          }
-          if (res.data.status == 100) {
-            return callback(new Error("该用户名已经被注册"));
-          } else {
-            return callback();
-          }
-        });
-    };
     //这里存放数据
     return {
       merchantInfo: {
         productImg: null,
         craftImg: null,
-        isCraft:false
+        isCraft: false,
       },
       // 地区海量信息
       siteOptions: regionData,
@@ -149,7 +135,7 @@ export default {
       rules: {
         username: {
           required: true,
-          validator: checkUsername,
+          validator: this.checkUsername(),
           trigger: "blur",
         },
         password: {
@@ -157,9 +143,35 @@ export default {
           message: "密码不能为空",
           trigger: "blur",
         },
+        age: {
+          required: true,
+          validator: checkAge(),
+          trigger: "blur",
+        },
+
         phone: {
           required: true,
-          message: "电话号码不能为空",
+          validator: checkTeleNumber(),
+          trigger: "blur",
+        },
+        email: {
+          required: true,
+          validator: checkEmail(),
+          trigger: "blur",
+        },
+        realName: {
+          required: true,
+          message: "真实姓名不能为空",
+          trigger: "blur",
+        },
+        annualIncome: {
+          required: true,
+          message: "目前收入不能为空",
+          trigger: "blur",
+        },
+        product: {
+          required: true,
+          message: "产品信息不能为空",
           trigger: "blur",
         },
         site: {
@@ -181,6 +193,25 @@ export default {
   watch: {},
   //方法集合
   methods: {
+    checkUsername() {
+      let checkUsername = (rule, value, callback) => {
+        this.$API.register.checkUsername(value).then((res) => {
+          if (value === undefined) {
+            return callback(new Error("该用户名不能为空"));
+          }
+          if (value.length > 8) {
+            return callback(new Error("该用户名太长,请设置1~8位"));
+          }
+          if (res.data.status == 100) {
+            return callback(new Error("该用户名已经被注册"));
+          } else {
+            return callback("该用户名可以注册");
+          }
+        });
+      };
+      return checkUsername;
+    },
+
     //   产品详略图获取
     getProductImg(fileList) {
       // 图片选定后自动提交给服务器，反正个人信息里有url即可
@@ -192,11 +223,10 @@ export default {
       this.merchantInfo.craftImg = fileList.map((item) => item.response);
     },
     submitForm(formName) {
-     // 加密
+      // 加密
       const md5 = this.$crypto.createHash("md5");
       md5.update(this.merchantInfo.password);
       this.merchantInfo.password = md5.digest("hex");
-
 
       this.$refs[formName].validate((valid) => {
         // json转化为string格式，不然后端和前端字符不匹配
@@ -240,5 +270,4 @@ export default {
 };
 </script>
 <style scoped lang="less">
-
 </style>

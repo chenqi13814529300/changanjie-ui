@@ -2,23 +2,10 @@
 <template>
   <div class="">
     <el-col :span="4">
-      <el-menu
-        :default-active="$route.path"
-        router
-        class="el-menu-vertical-demo"
-        background-color="#545c64"
-        text-color="#fff"
-        style="height: 85vh"
-        active-text-color="#ffd04b"
-      >
-        <el-menu-item v-for="item in menus" :key="item.id" :index="item.url" >
-          <span> {{ item.name }}</span>
-        </el-menu-item>
-      </el-menu>
+      <menu-manage :menus="menus"></menu-manage>
     </el-col>
     <el-col :span="20">
-    <router-view></router-view>
-
+      <router-view></router-view>
     </el-col>
   </div>
 </template>
@@ -33,16 +20,18 @@ export default {
   data() {
     //这里存放数据
     return {
-      menus:[
+      menus: [
         {
-          name:"申报贫困点",
-          url:'/volunteerManage/declare'
+          name: "申报贫困点",
+          url: "/volunteerManage/declare",
+          icon: "el-icon-location",
         },
         {
-          name:"全部申报点",
-          url:'/volunteerManage/povertyList'
-        }
-      ]
+          name: "全部申报点",
+          url: "/volunteerManage/povertyList",
+          icon: "el-icon-location",
+        },
+      ],
     };
   },
   //监听属性 类似于data概念

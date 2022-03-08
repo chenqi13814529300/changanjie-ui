@@ -76,9 +76,9 @@ export default {
       flex-direction: column;
       justify-content: center;
       align-items: left;
-      width: 80%;
+      width: 85%;
       img {
-        width: 40%;
+        width: 35%;
       }
       div {
         margin: 0.2rem 0;
@@ -125,4 +125,7 @@ export default {
     }
   }
 }
+
+
+
 </style>

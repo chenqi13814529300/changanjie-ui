@@ -2,11 +2,11 @@
 <template>
   <div class="myHeader">
     <div class="top">
-      <div class="logo">
+      <div class="logo swing_left">
         <img src="@/assets/image/logo.png" alt="" />
       </div>
-      <div class="navBar">
-        <div class="content">
+      <div class="navBar swing_right ">
+        <div class="content ">
           <div v-for="(item, index) in titles" :key="index">
             <router-link :to="item.url">
               <span
@@ -85,7 +85,7 @@ export default {
     isLogin() {
       // 放置刷新丢失vuex，这里再次从localStorage中获取并给vuex
       let user = localStorage.getItem("user");
-      user=JSON.parse(user)
+      user = JSON.parse(user);
       this.setLoginInfo(user);
       if (this.getLoginInfo) {
         return true;
@@ -113,9 +113,9 @@ export default {
     },
     loginOut() {
       this.setLoginInfo(null);
-       localStorage.removeItem("user");
+      localStorage.removeItem("user");
       this.$router.push("/");
-      this.$message.success("退出成功")
+      this.$message.success("退出成功");
     },
   },
   //生命周期 - 创建完成（可以访问当前this实例）
@@ -174,6 +174,19 @@ export default {
           letter-spacing: 0.3rem;
         }
       }
+      // 登录状态
+      .loginStatus {
+        
+        span {
+          font-size: 0.9rem;
+          color: rgb(81, 139, 4);
+          letter-spacing: 0;
+        }
+        span:nth-child(2) {
+          font-size: 0.8rem;
+          color: red;
+        }
+      }
       .login {
         margin-right: 0;
       }
@@ -202,12 +215,6 @@ export default {
   }
 }
 
-// 登录状态
-.loginStatus {
-  font-weight: 400;
-  span:nth-child(2) {
-    color: red;
-    font-size: 0.8rem;
-  }
-}
+
+
 </style>

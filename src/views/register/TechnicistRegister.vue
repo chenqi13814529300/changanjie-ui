@@ -103,25 +103,12 @@
 import Register from "@/components/common/Register.vue";
 // 三级地区引入
 import { regionData, CodeToText } from "element-china-area-data";
+import { checkEmail, checkTeleNumber, checkAge } from "@/utils/verification.js";
 
 export default {
   //import引入的组件需要注入到对象中才能使用
   components: { Register},
   data() {
-    let checkUsername = (rule, value, callback) => {
-      this.$API.register
-        .checkUsername(this.technicistInfo.username)
-        .then((res) => {
-          if (value === undefined) {
-            return callback(new Error("该用户名不能为空"));
-          }
-          if (res.data.status == 100) {
-            return callback(new Error("该用户名已经被注册"));
-          } else {
-            return callback();
-          }
-        });
-    };
     //这里存放数据
     return {
       technicistInfo: {
@@ -136,7 +123,7 @@ export default {
       rules: {
         username: {
           required: true,
-          validator: checkUsername,
+          validator: this.checkUsername(),
           trigger: "blur",
         },
         password: {
@@ -144,9 +131,30 @@ export default {
           message: "密码不能为空",
           trigger: "blur",
         },
+         age: {
+          required: true,
+          validator: checkAge(),
+          trigger: "blur",
+        },
+
         phone: {
           required: true,
-          message: "电话号码不能为空",
+          validator: checkTeleNumber(),
+          trigger: "blur",
+        },
+        email: {
+          required: true,
+          validator: checkEmail(),
+          trigger: "blur",
+        },
+         realName: {
+          required: true,
+          message: "真实姓名不能为空",
+          trigger: "blur",
+        },
+         occupation: {
+          required: true,
+          message: "公司或职业不能为空",
           trigger: "blur",
         },
         site: {
@@ -168,6 +176,24 @@ export default {
   watch: {},
   //方法集合
   methods: {
+      checkUsername() {
+      let checkUsername = (rule, value, callback) => {
+        this.$API.register.checkUsername(value).then((res) => {
+          if (value === undefined) {
+            return callback(new Error("该用户名不能为空"));
+          }
+          if (value.length > 8) {
+            return callback(new Error("该用户名太长,请设置1~8位"));
+          }
+          if (res.data.status == 100) {
+            return callback(new Error("该用户名已经被注册"));
+          } else {
+            return callback("该用户名可以注册");
+          }
+        });
+      };
+      return checkUsername;
+    },
     submitForm(formName) {
      // 加密
       const md5 = this.$crypto.createHash("md5");

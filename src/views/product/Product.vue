@@ -3,12 +3,16 @@
   <div class="product">
     <div class="productList">
       <div v-for="(item, index) in headerImgs" :key="index">
-        <div class="productItem"></div>
+        <div class="productItem swing"></div>
         <div class="text">产品一</div>
-        <div class="introduce">
+        <div class="introduce swing">
           <p class="title">产品简介：</p>
-          <p>桂花是中国木犀属众多树木的习称，代表物种木犀（学名：Osmanthus fragrans (Thunb.) Lour.），又名岩桂，系木犀科常绿灌木或小乔木，质坚皮薄，叶长椭圆形面端尖，对生，经冬不凋。花生叶腑间，花冠合瓣四裂，形小，其园艺品种繁多，最具代表性的有金桂、银桂、丹桂、月桂等。
-桂花是中国传统十大名花之一，集绿化、美化、香化于一体的观赏与实用兼备的优良园林树种，</p>
+          <p>
+            桂花是中国木犀属众多树木的习称，代表物种木犀（学名：Osmanthus
+            fragrans (Thunb.)
+            Lour.），又名岩桂，系木犀科常绿灌木或小乔木，质坚皮薄，叶长椭圆形面端尖，对生，经冬不凋。花生叶腑间，花冠合瓣四裂，形小，其园艺品种繁多，最具代表性的有金桂、银桂、丹桂、月桂等。
+            桂花是中国传统十大名花之一，集绿化、美化、香化于一体的观赏与实用兼备的优良园林树种，
+          </p>
         </div>
       </div>
     </div>
@@ -44,7 +48,8 @@ export default {
   //生命周期 - 创建完成（可以访问当前this实例）
   created() {},
   //生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {},
+  mounted() {
+  },
   beforeCreate() {}, //生命周期 - 创建之前
   beforeMount() {}, //生命周期 - 挂载之前
   beforeUpdate() {}, //生命周期 - 更新之前
@@ -55,8 +60,8 @@ export default {
 };
 </script>
 <style scoped lang="less">
-.product{
-    position: relative;
+.product {
+  position: relative;
 }
 .productList {
   display: flex;
@@ -72,18 +77,18 @@ export default {
     .text {
       text-align: center;
       line-height: 3rem;
-    //   background-color: yellow;
+      //   background-color: yellow;
       height: 3rem;
     }
     .introduce {
-    //   background-color: green;
-    font-weight: 400;
-    .title{
+      //   background-color: green;
+      font-weight: 400;
+      .title {
         margin: 1rem;
-    }
-    position: relative;
+      }
+      position: relative;
       height: 17rem;
-      font-size: .7rem;
+      font-size: 0.7rem;
       overflow: hidden;
       z-index: 99;
     }
@@ -96,5 +101,20 @@ export default {
   height: 17rem;
   position: absolute;
   bottom: 0;
+}
+
+// 动画组
+.swing {
+  animation: swing_frames 1s .2s ease both 
+}
+@keyframes swing_frames {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+  }
 }
 </style>

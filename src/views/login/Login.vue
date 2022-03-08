@@ -142,6 +142,7 @@ export default {
   background: url(~@/assets/image/loginBg.jpg);
   background-size: 100%;
   position: relative;
+  text-align: center;
   .title {
     padding-top: 2rem;
     font-size: 1.5rem;
@@ -162,6 +163,9 @@ export default {
 }
 /deep/.el-input__inner {
   width: 20rem;
+}
+.el-button{
+  margin: 0 2rem;
 }
 /*@import url(); 引入公共css类*/
 </style>

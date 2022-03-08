@@ -2,23 +2,10 @@
 <template>
   <div class="">
     <el-col :span="4">
-      <el-menu
-        :default-active="$route.path"
-        router
-        class="el-menu-vertical-demo"
-        background-color="#545c64"
-        text-color="#fff"
-        style="height: 85vh"
-        active-text-color="#ffd04b"
-      >
-        <el-menu-item v-for="item in menus" :key="item.id" :index="item.url" >
-          <span> {{ item.name }}</span>
-        </el-menu-item>
-      </el-menu>
+      <menu-manage :menus="menus"></menu-manage>
     </el-col>
     <el-col :span="20">
-    <router-view></router-view>
-
+      <router-view></router-view>
     </el-col>
   </div>
 </template>
@@ -26,23 +13,25 @@
 <script>
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
-
+import MenuManage from "@/components/common/MenuManage";
 export default {
   //import引入的组件需要注入到对象中才能使用
-  components: {},
+  components: { MenuManage },
   data() {
     //这里存放数据
     return {
-      menus:[
+      menus: [
         {
-          name:"待审核",
-          url:'/superManage/pending'
+          name: "待审核",
+          url: "/superManage/pending",
+          icon: "el-icon-location",
         },
         {
-          name:"贫困点管理",
-          url:'/superManage/povertyListManage'
-        }
-      ]
+          name: "贫困点管理",
+          url: "/superManage/povertyListManage",
+          icon: "el-icon-location",
+        },
+      ],
     };
   },
   //监听属性 类似于data概念

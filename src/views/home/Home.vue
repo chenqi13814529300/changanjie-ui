@@ -1,14 +1,14 @@
 <!--  -->
 <template>
   <div class="home">
-    <el-carousel :interval="4000" type="card" height="15rem">
+    <el-carousel :interval="4000" type="card" height="15rem" class="swing1">
       <el-carousel-item v-for="item in lunbo" :key="item">
         <img class="lunboImg" :src="require(`@/assets/image/${item}`)" alt="" />
       </el-carousel-item>
     </el-carousel>
 
     <div class="contentBox">
-      <div class="left">
+      <div class="left swing2">
         <div>
           <div class="title">
             <img src="@/assets/image/01.png" alt="" />
@@ -24,10 +24,10 @@
           <p>9、dd最最新简略消息新简略消息d</p>
         </div>
       </div>
-      <div class="center">
+      <div class="center swing3">
         <my-map></my-map>
       </div>
-      <div class="right">
+      <div class="right swing4">
         <div>
           <div class="title">
             <img src="@/assets/image/03.png" alt="" />
@@ -161,4 +161,6 @@ export default {
     }
   }
 }
+
+
 </style>
