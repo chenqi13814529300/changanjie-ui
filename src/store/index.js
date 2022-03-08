@@ -5,8 +5,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    loginInfo: '',
+  },
+  getters: {
+    getLoginInfo: (state) => state.loginInfo,
   },
   mutations: {
+    setLoginInfo: (state, data) => {
+      state.loginInfo = data
+    },
   },
   actions: {
   },

@@ -15,30 +15,31 @@
                 >{{ item.name }}</span
               >
             </router-link>
-
             <span>/</span>
           </div>
           <div>
-            <span class="login"  @click="toLongin">登录</span>
+            <span class="login" @click="toLongin">登录</span>
             <span>·</span>
-            <span class="register" @click="dialogFormVisible=true">注册</span>
+            <span class="register" @click="dialogFormVisible = true">注册</span>
+          </div>
+          <div class="loginStatus" v-if="isLogin">
+            <span><i class="el-icon-user"></i>{{ getLoginInfo.username }}</span>
+            <span @click="loginOut">退出</span>
           </div>
         </div>
       </div>
     </div>
 
-    <el-dialog title="注册角色"  width="20rem" :visible.sync="dialogFormVisible">
-        <el-select v-model="selectRole" placeholder="请选择注册的角色">
-          <el-option label="消费者" value="/customerRegister"></el-option>
-          <el-option label="商户" value="/merchantRegister"></el-option>
-          <el-option label="志愿者" value="/volunteerRegister"></el-option>
-          <el-option label="技术提供者" value="/technicistRegister"></el-option>
-        </el-select>
+    <el-dialog title="注册角色" width="20rem" :visible.sync="dialogFormVisible">
+      <el-select v-model="selectRole" placeholder="请选择注册的角色">
+        <el-option label="消费者" value="/customerRegister"></el-option>
+        <el-option label="商户" value="/merchantRegister"></el-option>
+        <el-option label="志愿者" value="/volunteerRegister"></el-option>
+        <el-option label="技术提供者" value="/technicistRegister"></el-option>
+      </el-select>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="toRegister"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="toRegister">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -47,7 +48,7 @@
 <script>
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
-
+import { mapGetters, mapMutations } from "vuex";
 export default {
   //import引入的组件需要注入到对象中才能使用
   components: {},
@@ -75,15 +76,30 @@ export default {
       ],
       currentIndex: 0,
       selectRole: null,
-      dialogFormVisible:false
+      dialogFormVisible: false,
     };
   },
   //监听属性 类似于data概念
-  computed: {},
+  computed: {
+    ...mapGetters(["getLoginInfo"]),
+    isLogin() {
+      // 放置刷新丢失vuex，这里再次从localStorage中获取并给vuex
+      let user = localStorage.getItem("user");
+      user=JSON.parse(user)
+      this.setLoginInfo(user);
+      if (this.getLoginInfo) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  },
   //监控data中的数据变化
   watch: {},
   //方法集合
   methods: {
+    ...mapMutations(["setLoginInfo"]),
+
     itemClick(index) {
       this.currentIndex = index;
     },
@@ -91,19 +107,21 @@ export default {
       this.$router.push("/login");
     },
 
-    toRegister(){
-      this.dialogFormVisible=false;
-      this.$router.push(this.selectRole)
-    }
+    toRegister() {
+      this.dialogFormVisible = false;
+      this.$router.push(this.selectRole);
+    },
+    loginOut() {
+      this.setLoginInfo(null);
+       localStorage.removeItem("user");
+      this.$router.push("/");
+      this.$message.success("退出成功")
+    },
   },
   //生命周期 - 创建完成（可以访问当前this实例）
   created() {},
   //生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {
-    console.log(this.$router.currentRoute.fullPath);
-    console.log(this.$route);
-
-  },
+  mounted() {},
   beforeCreate() {}, //生命周期 - 创建之前
   beforeMount() {}, //生命周期 - 挂载之前
   beforeUpdate() {}, //生命周期 - 更新之前
@@ -145,7 +163,7 @@ export default {
     .content {
       margin-left: 12%;
       height: 100%;
-      width: 80%;
+      width: 85%;
       display: flex;
       align-items: center;
       justify-content: right;
@@ -173,15 +191,23 @@ export default {
   padding: 0.3rem 0.3rem;
 }
 
-
 // 模态框
-/deep/.el-dialog{
+/deep/.el-dialog {
   text-align: center;
 }
-/deep/.el-dialog__footer{
+/deep/.el-dialog__footer {
   text-align: center;
-  .el-button{
+  .el-button {
     margin: 0 1rem;
+  }
+}
+
+// 登录状态
+.loginStatus {
+  font-weight: 400;
+  span:nth-child(2) {
+    color: red;
+    font-size: 0.8rem;
   }
 }
 </style>

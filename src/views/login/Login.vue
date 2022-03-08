@@ -45,6 +45,7 @@
 <script>
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
+import { mapMutations } from "vuex";
 export default {
   //import引入的组件需要注入到对象中才能使用
   components: {},
@@ -72,7 +73,16 @@ export default {
   watch: {},
   //方法集合
   methods: {
+    ...mapMutations(["setLoginInfo"]),
     submitForm(formName) {
+      let arr = {
+        消费者: "/aaa",
+        消费者: "/aaa",
+        志愿者: "/volunteerManage/declare",
+        技术提供员: "/ccc",
+        超级管理员: "superManage",
+      };
+
       const md5 = this.$crypto.createHash("md5");
       md5.update(this.loginInfo.password);
       this.loginInfo.password = md5.digest("hex");
@@ -80,10 +90,21 @@ export default {
         console.log(this.loginInfo);
         this.$API.login.login(this.loginInfo).then((res) => {
           if (res.data.status == 200) {
-            this.$message.success('恭喜你，登录成功');
-
-          }else{
-            this.$message.error('登录失败，请从新核实用户名密码与身份');
+            // 设置状态
+            let currentInfo = {
+              username: this.loginInfo.username,
+              role: this.loginInfo.role,
+            };
+            // 设置vuex 
+            this.setLoginInfo(currentInfo);
+            // 设置localStorage
+            currentInfo = JSON.stringify(currentInfo);
+            localStorage.setItem("user", currentInfo);
+            // 跳转
+            this.$message.success("恭喜你，登录成功");
+            this.$router.push(arr[this.loginInfo.role]);
+          } else {
+            this.$message.error("登录失败，请从新核实用户名密码与身份");
           }
           console.log(res);
         });

@@ -4,18 +4,24 @@
     <register class="myReg">
       <p class="title">申报贫困点</p>
       <el-form
-      class="myForm"
-        :model="merchantInfo"
+        class="myForm"
+        :model="declareInfo"
         :rules="rules"
         ref="ruleSubmit"
         label-width="150px"
       >
-
         <el-form-item label="产品信息" prop="product">
           <el-input
             type="textarea"
-            v-model="merchantInfo.product"
+            v-model="declareInfo.product"
             placeholder="请输入产品信息"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="联系方式" prop="phone">
+          <el-input
+            type="tel"
+            v-model="declareInfo.phone"
+            placeholder="请输入联系方式"
           ></el-input>
         </el-form-item>
 
@@ -24,7 +30,7 @@
             class="elCascader"
             size="large"
             :options="siteOptions"
-            v-model="merchantInfo.selectedOptions"
+            v-model="declareInfo.selectedOptions"
             @change="handleChange"
           >
           </el-cascader>
@@ -32,7 +38,7 @@
 
         <el-form-item label="详细地址" prop="detailAddress">
           <el-input
-            v-model="merchantInfo.detailAddress"
+            v-model="declareInfo.detailAddress"
             placeholder="请输入产品详细地址"
           ></el-input>
         </el-form-item>
@@ -56,6 +62,7 @@ import Register from "@/components/common/Register.vue";
 // 三级地区引入
 import { regionData, CodeToText } from "element-china-area-data";
 import ImgUpload from "@/components/common/ImgUpload.vue";
+import { mapGetters } from "vuex";
 
 export default {
   //import引入的组件需要注入到对象中才能使用
@@ -63,7 +70,7 @@ export default {
   data() {
     //这里存放数据
     return {
-      merchantInfo: {
+      declareInfo: {
         productImg: null,
       },
       // 地区海量信息
@@ -88,27 +95,33 @@ export default {
     };
   },
   //监听属性 类似于data概念
-  computed: {},
+  computed: {
+    ...mapGetters(["getLoginInfo"]),
+  },
   //监控data中的数据变化
   watch: {},
   //方法集合
   methods: {
     //   产品详略图获取
     getProductImg(fileList) {
-      this.merchantInfo.productImg = fileList.map((item) => item.response);
+      this.declareInfo.productImg = fileList.map((item) => item.response);
     },
 
     submitForm(formName) {
-
       this.$refs[formName].validate((valid) => {
         // json转化为string格式，不然后端和前端字符不匹配
-        this.merchantInfo.site = this.merchantInfo.site.join(",");
-        this.merchantInfo.productImg = this.merchantInfo.productImg.join(",");
+        this.declareInfo.site = this.declareInfo.site.join(",");
+        this.declareInfo.productImg = this.declareInfo.productImg.join(",");
 
-        console.log(this.merchantInfo);
-
-        this.$API.register.merchantRegister(this.merchantInfo).then((res) => {
-          console.log(res);
+        console.log(this.declareInfo);
+        // 获取当前用户
+        this.declareInfo.username = this.getLoginInfo.username;
+        this.$API.volunteerManage.declarePoor(this.declareInfo).then((res) => {
+          if (res.data.status == 200) {
+            this.$message.success("恭喜你，提交成功");
+          } else {
+            this.$message.error("提交失败");
+          }
         });
       });
     },
@@ -117,12 +130,12 @@ export default {
       this.register_province = CodeToText[arr[0]];
       this.register_city = CodeToText[arr[1]];
       this.register_district = CodeToText[arr[2]];
-      this.merchantInfo.site = [
+      this.declareInfo.site = [
         this.register_province,
         this.register_city,
         this.register_district,
       ];
-      console.log(this.merchantInfo.site);
+      console.log(this.declareInfo.site);
     },
   },
   //生命周期 - 创建完成（可以访问当前this实例）
@@ -139,5 +152,4 @@ export default {
 };
 </script>
 <style scoped lang="less">
-
 </style>
