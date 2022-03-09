@@ -62,7 +62,8 @@ export default {
 <style scoped lang="less">
 .myFooter {
   width: 100%;
-  height: 10rem;
+  height: 8rem;
+  min-height: 130px;
   display: flex;
   .left {
     display: flex;
@@ -78,19 +79,19 @@ export default {
       align-items: left;
       width: 85%;
       img {
-        width: 35%;
+        width: 10rem
       }
       div {
-        margin: 0.2rem 0;
+        margin: 0.1rem 0;
         font-size: 0.5rem;
-        letter-spacing: 0.3rem;
+        letter-spacing: 0.2rem;
       }
     }
   }
   .center {
     flex: 4;
     position: relative;
-
+    overflow: hidden;
     > div {
       height: 100%;
       width: 80%;

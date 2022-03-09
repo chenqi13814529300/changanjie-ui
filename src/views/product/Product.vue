@@ -48,8 +48,7 @@ export default {
   //生命周期 - 创建完成（可以访问当前this实例）
   created() {},
   //生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {
-  },
+  mounted() {},
   beforeCreate() {}, //生命周期 - 创建之前
   beforeMount() {}, //生命周期 - 挂载之前
   beforeUpdate() {}, //生命周期 - 更新之前
@@ -70,27 +69,28 @@ export default {
   > div {
     flex: 1;
     margin: 0 1rem;
+    display: flex;
+    flex-direction: column;
     .productItem {
+      flex: 3;
       background-color: rgb(212, 212, 212);
-      height: 10rem;
     }
     .text {
+      flex: 1;
       text-align: center;
       line-height: 3rem;
-      //   background-color: yellow;
-      height: 3rem;
     }
     .introduce {
-      //   background-color: green;
+      flex: 6;
       font-weight: 400;
-      .title {
-        margin: 1rem;
-      }
       position: relative;
-      height: 17rem;
       font-size: 0.7rem;
       overflow: hidden;
       z-index: 99;
+
+      .title {
+        margin: 1rem;
+      }
     }
   }
 }
@@ -98,14 +98,14 @@ export default {
 .bg {
   background-color: rgb(212, 212, 212);
   width: 100%;
-  height: 17rem;
+  height: 18rem;
   position: absolute;
   bottom: 0;
 }
 
 // 动画组
 .swing {
-  animation: swing_frames 1s .2s ease both 
+  animation: swing_frames 1s 0.2s ease both;
 }
 @keyframes swing_frames {
   0% {

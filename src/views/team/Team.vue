@@ -60,6 +60,7 @@ export default {
 .team {
   width: 100%;
   position: relative;
+  min-height: 210px;
 }
 .headerImgsBox {
   display: flex;
