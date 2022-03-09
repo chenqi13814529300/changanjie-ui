@@ -4,10 +4,12 @@
     <el-upload
       action="/api/img/upload"
       ref="upload"
+      :multiple="true"
+      :auto-upload="true"
       list-type="picture-card"
       :on-success="imgUrlList"
       :on-change="handleChange"
-      :auto-upload="true"
+      :before-upload="handleBeforeUpload"
     >
       <i slot="default" class="el-icon-plus"></i>
       <div slot="file" slot-scope="{ file }">
@@ -59,10 +61,10 @@ export default {
   data() {
     //这里存放数据
     return {
-      dialogImageUrl: "",
-      dialogVisible: false,
       disabled: false,
       files: [],
+      dialogVisible: false,
+      dialogImageUrl: "",
     };
   },
   //监听属性 类似于data概念
@@ -83,13 +85,57 @@ export default {
     handleChange(file, fileList) {
       console.log(this.files);
     },
-    handleRemove(file) {},
+    // 预览
     handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url;
       this.dialogVisible = true;
+      this.dialogImageUrl = file.url;
     },
+    // 下载图片
     handleDownload(file) {
-      // console.log(file);
+      console.log(file);
+      var a = document.createElement("a");
+      var event = new MouseEvent("click");
+      a.download = file.name;
+      a.href = file.url;
+      a.dispatchEvent(event);
+    },
+    //文件移除操作
+    handleRemove(file, fileList) {
+      this.$refs.upload.handleRemove(file);
+    },
+    handlePictureCardPreview(file) {
+      console.log(file);
+    },
+
+    // 上传前判断是否符合上传条件
+    handleBeforeUpload(file) {
+      const uploadLimit = 2;
+      const uploadTypes = [
+        "jpg",
+        "png",
+        "doc",
+        "docx",
+        "xlsx",
+        "zip",
+        "rar",
+        "pdf",
+      ];
+      const filetype = file.name.replace(/.+\./, "");
+      const isRightSize = (file.size || 0) / 1024 / 1024 < uploadLimit;
+      if (!isRightSize) {
+        this.$message.error("文件大小超过 " + uploadLimit + "MB");
+        return false;
+      }
+
+      if (uploadTypes.indexOf(filetype.toLowerCase()) === -1) {
+        this.$message.warning({
+          message:
+            "请上传后缀名为jpg、png、txt、pdf、doc、docx、xlsx、zip或rar的附件",
+        });
+        return false;
+      }
+
+      return true;
     },
   },
   //生命周期 - 创建完成（可以访问当前this实例）

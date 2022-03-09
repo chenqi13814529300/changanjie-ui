@@ -22,20 +22,18 @@ export default {
     };
   },
   //监听属性 类似于data概念
-  computed: {
-  },
+  computed: {},
   //监控data中的数据变化
-  watch: {
-  },
+  watch: {},
   //方法集合
   methods: {
     async initChart() {
-      this.chartInstance = this.$echarts.init(this.$refs.map_ref,"chalk");
-
-      const ret = await axios.get(
-        "http://localhost:8080/static/map/china.json"
-      );
-      this.$echarts.registerMap("china", ret.data);
+      this.chartInstance = this.$echarts.init(this.$refs.map_ref, "chalk");
+      var ret = require("/public/static/map/china.json");
+      // const ret = await axios.get(
+      //   "http://localhost:8080/static/map/china.json"
+      // );
+      this.$echarts.registerMap("china", ret);
       console.log(ret);
       const initOption = {
         title: {
@@ -65,10 +63,12 @@ export default {
 
     async getData() {
       // 获取散点图的数据
-       const ret = await axios.get(
-        "http://localhost:8080/static/map/map.json"
-      );
-      this.allData = ret.data;
+      var ret = require("/public/static/map/map.json");
+
+      //  const ret = await axios.get(
+      //   "http://localhost:8080/static/map/map.json"
+      // );
+      this.allData = ret;
       this.updateChart();
     },
     updateChart() {
@@ -130,13 +130,11 @@ export default {
   },
 
   //生命周期 - 创建完成（可以访问当前this实例）
-  created() {
-
-  },
+  created() {},
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
     this.initChart();
-    this.getData()
+    this.getData();
 
     window.addEventListener("resize", this.screenAdapter);
     this.screenAdapter();
@@ -147,7 +145,6 @@ export default {
   updated() {}, //生命周期 - 更新之后
   beforeDestroy() {}, //生命周期 - 销毁之前
   destroyed() {
-
     window.removeEventListener("resize", this.screenAdapter);
   }, //生命周期 - 销毁完成
   activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
@@ -159,7 +156,6 @@ export default {
   width: 100%;
   height: 100%;
   overflow: hidden;
-
 }
 
 .com-chart {
@@ -167,5 +163,4 @@ export default {
   height: 100%;
   overflow: hidden;
 }
-
 </style>

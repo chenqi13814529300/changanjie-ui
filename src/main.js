@@ -8,11 +8,15 @@ import crypto from "crypto";
 import * as echarts from 'echarts'
 import '../public/static/theme/chalk';
 Vue.prototype.$echarts = echarts
+
 import ElementUI from 'element-ui'
 Vue.prototype.$API = API
 Vue.prototype.$crypto = crypto
-
 Vue.use(ElementUI)
+
+import 'fullpage.js/vendors/scrolloverflow';
+import VueFullPage from 'vue-fullpage.js';
+Vue.use(VueFullPage)
 
 Vue.config.productionTip = false
 

@@ -33,7 +33,6 @@ html {
       font-size: 17px;
   }
 }
-/* 屏幕最小宽度320px width>=320 取50 */
 @media screen and (max-width:1200px) {
   html {
       font-size: 14px;
@@ -70,7 +69,6 @@ body {
   margin: 0;
   font-weight: 300;
   font-family:Verdana, Geneva, Tahoma, sans-serif;
-
 }
 
 /**
