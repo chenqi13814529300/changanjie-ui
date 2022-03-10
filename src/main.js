@@ -18,6 +18,11 @@ import 'fullpage.js/vendors/scrolloverflow';
 import VueFullPage from 'vue-fullpage.js';
 Vue.use(VueFullPage)
 
+
+import moment from 'moment'
+Vue.prototype.$moment = moment
+
+
 Vue.config.productionTip = false
 
 new Vue({

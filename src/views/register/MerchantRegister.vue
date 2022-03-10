@@ -238,6 +238,7 @@ export default {
           if (this.merchantInfo.isCraft) {
             this.merchantInfo.craftImg = this.merchantInfo.craftImg.join(",");
           }
+
           this.$API.register.merchantRegister(this.merchantInfo).then((res) => {
             if (res.data.status == 200) {
               this.$message.success("恭喜你，注册成功");
