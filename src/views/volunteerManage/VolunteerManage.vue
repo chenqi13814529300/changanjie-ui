@@ -27,7 +27,7 @@ export default {
           icon: "el-icon-location",
         },
         {
-          name: "全部申报点",
+          name: "我的申报点",
           url: "/volunteerManage/povertyList",
           icon: "el-icon-location",
         },

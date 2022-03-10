@@ -76,11 +76,11 @@ export default {
     ...mapMutations(["setLoginInfo"]),
     submitForm(formName) {
       let arr = {
-        消费者: "/aaa",
-        消费者: "/aaa",
-        志愿者: "/volunteerManage/declare",
-        技术提供员: "/ccc",
-        超级管理员: "superManage",
+        "消费者": "/aaa",
+        "商户": "/merchantManage/declare",
+        "志愿者": "/volunteerManage/declare",
+        "技术提供员": "/ccc",
+        "超级管理员": "superManage/pending",
       };
 
       const md5 = this.$crypto.createHash("md5");

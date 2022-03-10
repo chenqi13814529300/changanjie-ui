@@ -6,7 +6,7 @@
         :data="declarePoorByUsername"
         border
         style="width: 100%"
-        height="calc(85vh - 40px)"
+        height="calc(100vh - 40px)"
       >
         <el-table-column prop="username" label="用户名" min-width="70">
         </el-table-column>

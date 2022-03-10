@@ -2,39 +2,42 @@
 <template>
   <div class="">
     <el-col :span="4">
-      <el-menu
-        class="el-menu-vertical-demo"
-        background-color="#545c64"
-        text-color="#fff"
-        style="height: 85vh"
-        active-text-color="#ffd04b"
-        router
-        :default-active="$route.path"
-      >
-        <el-menu-item index="/merchantManage/aaa">
-          <i class="el-icon-document"></i>
-          <span slot="title">11</span>
-        </el-menu-item>
-         <el-menu-item index="/merchantManage/bbb">
-          <i class="el-icon-document"></i>
-          <span slot="title">22</span>
-        </el-menu-item>
-      </el-menu>
+      <menu-manage :menus="menus"></menu-manage>
     </el-col>
-    <router-view></router-view>
+    <el-col :span="20">
+      <router-view></router-view>
+    </el-col>
   </div>
 </template>
 
 <script>
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
-
+import MenuManage from '@/components/common/MenuManage'
 export default {
   //import引入的组件需要注入到对象中才能使用
-  components: {},
+  components: {MenuManage},
   data() {
     //这里存放数据
-    return {};
+    return {
+      menus: [
+        {
+          name: "申报贫困点",
+          url: "/merchantManage/declare",
+          icon: "el-icon-location",
+        },
+        {
+          name: "我的申报点",
+          url: "/merchantManage/povertyList",
+          icon: "el-icon-location",
+        },
+        {
+          name: "我的流水",
+          url: "/merchantManage/account",
+          icon: "el-icon-location",
+        }
+      ],
+    };
   },
   //监听属性 类似于data概念
   computed: {},

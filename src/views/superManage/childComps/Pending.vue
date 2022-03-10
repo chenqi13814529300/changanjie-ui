@@ -1,40 +1,46 @@
 <!--  -->
 <template>
   <div class="">
-    <el-table
-      :data="declarePooringList"
-      border
-      style="width: 100%"
-      height="85vh"
-    >
-      <el-table-column prop="username" label="用户名" min-width="70"  >
-      </el-table-column>
-      <el-table-column prop="phone" label="电话" min-width="100">
-      </el-table-column>
-      <el-table-column prop="product" label="申请产品" min-width="120">
-      </el-table-column>
-      <el-table-column prop="site" label="地点" min-width="150">
-      </el-table-column>
+    <el-card>
+      <el-table
+        :data="declarePooringList"
+        border
+        style="width: 100%"
+        height="calc(100vh - 40px)"
+      >
+        <el-table-column prop="username" label="用户名" min-width="70">
+        </el-table-column>
+        <el-table-column prop="phone" label="电话" min-width="100">
+        </el-table-column>
+        <el-table-column prop="productName" label="产品名" min-width="120">
+        </el-table-column>
+        <el-table-column prop="site" label="地点" min-width="150">
+        </el-table-column>
 
-      <el-table-column prop="detailAddress" label="详细地址" min-width="120">
-      </el-table-column>
-      <el-table-column prop="createTime" label="申请时间" min-width="100">
-      </el-table-column>
-      <el-table-column prop="updateTime" label="更新时间" min-width="100">
-      </el-table-column>
-      <el-table-column prop="status" label="申请状态" min-width="100">
-      </el-table-column>
-      <el-table-column label="操作" min-width="140">
-        <template slot-scope="scope">
-          <el-button @click="handleClick(scope.row)" type="text" size="small"
-            >查看</el-button
-          >
-          <el-button type="text" size="small" @click="agree(scope.row)"
-            >撤销申请</el-button
-          >
-        </template>
-      </el-table-column>
-    </el-table>
+        <el-table-column prop="detailAddress" label="详细地址" min-width="120">
+        </el-table-column>
+        <el-table-column prop="createTime" label="申请时间" min-width="100">
+        </el-table-column>
+        <el-table-column prop="updateTime" label="更新时间" min-width="100">
+        </el-table-column>
+     
+        <el-table-column prop="status" label="申请状态" min-width="100">
+        </el-table-column>
+        <el-table-column label="操作" min-width="140">
+          <template slot-scope="scope">
+            <el-button @click="handleClick(scope.row)" type="text" size="small"
+              >查看</el-button
+            >
+            <el-button type="text" size="small" @click="agree(scope.row)"
+              >同意申请</el-button
+            >
+             <el-button type="text" size="small" @click="reject(scope.row)"
+              >拒绝申请</el-button
+            >
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-card>
   </div>
 </template>
 
@@ -58,6 +64,7 @@ export default {
   //监听属性 类似于data概念
   computed: {
     ...mapGetters([
+      "getDeclarePoorList",
       "getDeclarePooringList",
       "gettDeclarePoorFailList",
       "getDeclarePoorSuccessList",
@@ -68,6 +75,7 @@ export default {
   //方法集合
   methods: {
     ...mapMutations([
+      "setDeclarePoorList",
       "setDeclarePooringList",
       "setDeclarePoorFailList",
       "setDeclarePoorSuccessList",
@@ -86,6 +94,7 @@ export default {
           (item) => item.status == "审核通过"
         );
         // vuex
+        this.setDeclarePoorList(this.declarePoorList);
         this.setDeclarePooringList(this.declarePooringList);
         this.setDeclarePoorFailList(this.declarePoorFailList);
         this.setDeclarePoorSuccessList(this.declarePoorSuccessList);
@@ -120,6 +129,7 @@ export default {
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
     this.getAllDeclarePoor();
+    console.log(this.getDeclarePoorList);
   },
   beforeCreate() {}, //生命周期 - 创建之前
   beforeMount() {}, //生命周期 - 挂载之前

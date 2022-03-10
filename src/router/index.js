@@ -71,17 +71,22 @@ const routes = [
     path: '/merchantManage',
     name: 'MerchantManage',
     component: () => import('@/views/merchantManage/MerchantManage'),
-    redirect: '/merchantManage/aaa',
+    redirect: '/merchantManage/declare',
     children: [
       {
-        path: 'aaa',
-        name: 'aaa',
-        component: () => import('@/views/merchantManage/childComps/aaa'),
+        path: 'declare',
+        name: 'Declare',
+        component: () => import('@/views/merchantManage/childComps/Declare'),
       },
       {
-        path: 'bbb',
-        name: 'bbb',
-        component: () => import('@/views/merchantManage/childComps/bbb'),
+        path: 'povertyList',
+        name: 'PovertyList',
+        component: () => import('@/views/merchantManage/childComps/PovertyList'),
+      },
+      {
+        path: 'account',
+        name: 'Account',
+        component: () => import('@/views/merchantManage/childComps/Account'),
       }
     ]
   },
@@ -151,15 +156,16 @@ const router = new VueRouter({
 // 挂在路由导航守卫
 router.beforeEach((to, from, next) => {
   let arr = {
-    消费者: "/aaa",
-    消费者: "/aaa",
-    志愿者: "volunteer",
-    技术提供员: "/ccc",
-    超级管理员: "super",
+    "消费者": "customer",
+    "商户": "merchant",
+    "志愿者": "volunteer",
+    "技术提供员": "technicist",
+    "超级管理员": "super",
   };
   // 如果去管理页面必须判断是否已经登录了，这里没有设置token之类的，时间不足
   // 这里用vuex记录了  
   //管理页面则为true
+  console.log(to);
   if (to.fullPath.indexOf("Manage") != -1) {
     let user = localStorage.getItem("user");
     console.log("去了管理页面查看是否有角色");

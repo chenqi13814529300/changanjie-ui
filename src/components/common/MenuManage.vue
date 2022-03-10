@@ -7,7 +7,7 @@
       class="el-menu-vertical-demo"
       background-color="#545c64"
       text-color="#fff"
-      style="height: 85vh"
+      style="height: 100vh"
       active-text-color="#ffd04b"
     >
       <template v-for="item in menus">
@@ -68,4 +68,5 @@ export default {
 };
 </script>
 <style scoped lang='less'>
+
 </style>

@@ -59,10 +59,16 @@
             placeholder="请输入目前年收入"
           ></el-input>
         </el-form-item>
-        <el-form-item label="产品信息" prop="product">
+        <el-form-item label="产品名称" prop="productName">
+          <el-input
+            v-model="merchantInfo.productName"
+            placeholder="请输入产品名称"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="产品信息" prop="productInfo">
           <el-input
             type="textarea"
-            v-model="merchantInfo.product"
+            v-model="merchantInfo.productInfo"
             placeholder="请输入产品信息"
           ></el-input>
         </el-form-item>
@@ -169,7 +175,12 @@ export default {
           message: "目前收入不能为空",
           trigger: "blur",
         },
-        product: {
+        productName: {
+          required: true,
+          message: "产品名称不能为空",
+          trigger: "blur",
+        },
+        productInfo: {
           required: true,
           message: "产品信息不能为空",
           trigger: "blur",
