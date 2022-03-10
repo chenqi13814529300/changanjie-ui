@@ -81,9 +81,13 @@ export default {
     imgUrlList(response, file, fileList) {
       this.$emit("fileList", fileList);
       console.log(fileList);
+      if(fileList.length<2){
+      this.$message.warning(`至少上传两张不同角度的图片`);
+      }
     },
     handleChange(file, fileList) {
       console.log(this.files);
+
     },
     // 预览
     handlePictureCardPreview(file) {

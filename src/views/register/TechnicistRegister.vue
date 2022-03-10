@@ -4,7 +4,7 @@
     <register>
       <p class="title">技术提供者注册</p>
       <el-form
-      class="myForm"
+        class="myForm"
         :model="technicistInfo"
         :rules="rules"
         ref="ruleSubmit"
@@ -19,9 +19,9 @@
         </el-form-item>
         <!-- 机构名称 end -->
         <!-- 机构名称 start -->
-        <el-form-item label="密码"  prop="password">
+        <el-form-item label="密码" prop="password">
           <el-input
-              type="password"
+            type="password"
             v-model="technicistInfo.password"
             placeholder="请输入密码"
           ></el-input>
@@ -44,7 +44,7 @@
         <!-- 手机号 start -->
         <el-form-item label="手机号" prop="phone">
           <el-input
-          type="tel"
+            type="tel"
             v-model="technicistInfo.phone"
             placeholder="请输入手机号"
           ></el-input>
@@ -58,16 +58,15 @@
         </el-form-item>
         <!-- 联系地址 三级联动 start -->
         <el-form-item label="所在地" prop="site">
-            <el-cascader
+          <el-cascader
             class="elCascader"
-              size="large"
-              :options="siteOptions"
-              v-model="technicistInfo.selectedOptions"
-              @change="handleChange"
-            >
-            </el-cascader>
+            size="large"
+            :options="siteOptions"
+            v-model="technicistInfo.selectedOptions"
+            @change="handleChange"
+          >
+          </el-cascader>
         </el-form-item>
-
 
         <el-form-item label="详细地址" prop="detailAddress">
           <el-input
@@ -84,7 +83,7 @@
         </el-form-item>
         <el-form-item label="拥有的专利/技术" prop="patent">
           <el-input
-          type="textarea"
+            type="textarea"
             v-model="technicistInfo.patent"
             placeholder="请输入专利或技术"
           ></el-input>
@@ -108,12 +107,11 @@ import { checkEmail, checkTeleNumber, checkAge } from "@/utils/verification.js";
 
 export default {
   //import引入的组件需要注入到对象中才能使用
-  components: { Register},
+  components: { Register },
   data() {
     //这里存放数据
     return {
-      technicistInfo: {
-      },
+      technicistInfo: {},
       // 地区海量信息
       siteOptions: regionData,
       // 三级地区: 省 市 区
@@ -132,7 +130,7 @@ export default {
           message: "密码不能为空",
           trigger: "blur",
         },
-         age: {
+        age: {
           required: true,
           validator: checkAge(),
           trigger: "blur",
@@ -148,12 +146,12 @@ export default {
           validator: checkEmail(),
           trigger: "blur",
         },
-         realName: {
+        realName: {
           required: true,
           message: "真实姓名不能为空",
           trigger: "blur",
         },
-         occupation: {
+        occupation: {
           required: true,
           message: "公司或职业不能为空",
           trigger: "blur",
@@ -177,7 +175,7 @@ export default {
   watch: {},
   //方法集合
   methods: {
-      checkUsername() {
+    checkUsername() {
       let checkUsername = (rule, value, callback) => {
         this.$API.register.checkUsername(value).then((res) => {
           if (value === undefined) {
@@ -196,7 +194,7 @@ export default {
       return checkUsername;
     },
     submitForm(formName) {
-     // 加密
+      // 加密
       const md5 = this.$crypto.createHash("md5");
       md5.update(this.technicistInfo.password);
       this.technicistInfo.password = md5.digest("hex");
@@ -205,9 +203,16 @@ export default {
         // json转化为string格式，不然后端和前端字符不匹配
         this.technicistInfo.site = this.technicistInfo.site.join(",");
         console.log(this.technicistInfo);
-        this.$API.register.technicistRegister(this.technicistInfo).then((res) => {
-          console.log(res);
-        });
+        this.$API.register
+          .technicistRegister(this.technicistInfo)
+          .then((res) => {
+            if (res.data.status == 200) {
+              this.$message.success("恭喜你，注册成功");
+              this.$router.push("/login");
+            } else {
+              this.$message.error("注册失败");
+            }
+          });
       });
     },
     // 地区
@@ -237,5 +242,4 @@ export default {
 };
 </script>
 <style scoped lang="less">
-
 </style>

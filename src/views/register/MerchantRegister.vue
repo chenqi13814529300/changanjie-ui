@@ -223,25 +223,31 @@ export default {
       this.merchantInfo.craftImg = fileList.map((item) => item.response);
     },
     submitForm(formName) {
-      // 加密
-      const md5 = this.$crypto.createHash("md5");
-      md5.update(this.merchantInfo.password);
-      this.merchantInfo.password = md5.digest("hex");
+      if (this.merchantInfo.productImg.length < 2) {
+        this.$message.error("提交信息有误，请核实图片个数");
+      } else {
+        // 加密
+        const md5 = this.$crypto.createHash("md5");
+        md5.update(this.merchantInfo.password);
+        this.merchantInfo.password = md5.digest("hex");
 
-      this.$refs[formName].validate((valid) => {
-        // json转化为string格式，不然后端和前端字符不匹配
-        this.merchantInfo.site = this.merchantInfo.site.join(",");
-        this.merchantInfo.productImg = this.merchantInfo.productImg.join(",");
-        if (this.merchantInfo.isCraft) {
-          this.merchantInfo.craftImg = this.merchantInfo.craftImg.join(",");
-        }
-
-        console.log(this.merchantInfo);
-
-        this.$API.register.merchantRegister(this.merchantInfo).then((res) => {
-          console.log(res);
+        this.$refs[formName].validate((valid) => {
+          // json转化为string格式，不然后端和前端字符不匹配
+          this.merchantInfo.site = this.merchantInfo.site.join(",");
+          this.merchantInfo.productImg = this.merchantInfo.productImg.join(",");
+          if (this.merchantInfo.isCraft) {
+            this.merchantInfo.craftImg = this.merchantInfo.craftImg.join(",");
+          }
+          this.$API.register.merchantRegister(this.merchantInfo).then((res) => {
+            if (res.data.status == 200) {
+              this.$message.success("恭喜你，注册成功");
+              this.$router.push("/login");
+            } else {
+              this.$message.error("注册失败");
+            }
+          });
         });
-      });
+      }
     },
     // 地区
     handleChange(arr) {

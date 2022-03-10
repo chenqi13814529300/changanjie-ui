@@ -196,6 +196,7 @@ export default {
         this.$API.register.customerRegister(this.customerInfo).then((res) => {
           if (res.data.status == 200) {
             this.$message.success("恭喜你，注册成功");
+            this.$router.push("/login")
           } else {
             this.$message.error("注册失败");
           }

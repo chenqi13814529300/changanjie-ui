@@ -156,17 +156,17 @@ export default {
           validator: checkEmail(),
           trigger: "blur",
         },
-          realName: {
+        realName: {
           required: true,
           message: "真实姓名不能为空",
           trigger: "blur",
         },
-          school: {
+        school: {
           required: true,
           message: "学校不能为空",
           trigger: "blur",
         },
-          studentId: {
+        studentId: {
           required: true,
           message: "学号不能为空",
           trigger: "blur",
@@ -220,7 +220,12 @@ export default {
         // this.studentInfo.picture = this.studentInfo.picture.join(",");
         console.log(this.volunteerInfo);
         this.$API.register.volunteerRegister(this.volunteerInfo).then((res) => {
-          console.log(res);
+          if (res.data.status == 200) {
+            this.$message.success("恭喜你，注册成功");
+            this.$router.push('/login')
+          } else {
+            this.$message.error("注册失败");
+          }
         });
       });
     },

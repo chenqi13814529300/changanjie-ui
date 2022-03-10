@@ -63,6 +63,7 @@ import Register from "@/components/common/Register.vue";
 import { regionData, CodeToText } from "element-china-area-data";
 import ImgUpload from "@/components/common/ImgUpload.vue";
 import { mapGetters } from "vuex";
+// import { checkEmail, checkTeleNumber, checkImg } from "@/utils/verification.js";
 
 export default {
   //import引入的组件需要注入到对象中才能使用
@@ -108,22 +109,27 @@ export default {
     },
 
     submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        // json转化为string格式，不然后端和前端字符不匹配
-        this.declareInfo.site = this.declareInfo.site.join(",");
-        this.declareInfo.productImg = this.declareInfo.productImg.join(",");
-
-        console.log(this.declareInfo);
-        // 获取当前用户
-        this.declareInfo.username = this.getLoginInfo.username;
-        this.$API.volunteerManage.declarePoor(this.declareInfo).then((res) => {
-          if (res.data.status == 200) {
-            this.$message.success("恭喜你，提交成功");
-          } else {
-            this.$message.error("提交失败");
-          }
+      if (this.declareInfo.productImg.length < 2) {
+        this.$message.error("提交信息有误，请核实图片个数");
+      } else {
+        this.$refs[formName].validate((valid) => {
+          // json转化为string格式，不然后端和前端字符不匹配
+          this.declareInfo.site = this.declareInfo.site.join(",");
+          this.declareInfo.productImg = this.declareInfo.productImg.join(",");
+          console.log(this.declareInfo);
+          // 获取当前用户
+          this.declareInfo.username = this.getLoginInfo.username;
+          this.$API.volunteerManage
+            .declarePoor(this.declareInfo)
+            .then((res) => {
+              if (res.data.status == 200) {
+                this.$message.success("恭喜你，提交成功");
+              } else {
+                this.$message.error("提交失败");
+              }
+            });
         });
-      });
+      }
     },
     // 地区
     handleChange(arr) {
