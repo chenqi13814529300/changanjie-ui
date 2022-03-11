@@ -2,14 +2,14 @@
 <template>
   <div class="team">
     <div class="headerImgsBox">
-      <div v-for="(item, index) in headerImgs" :key="index" class="slideDown">
-        <img :src="require(`@/assets/image/${item}`)" alt="" />
-        <div class="text">成员一</div>
+      <div v-for="(item, index) in team" :key="index" class="slideDown">
+        <img :src="require(`@/assets/image/${item.src}`)" alt="" />
+        <div class="text">{{item.name}}</div>
         <div class="introduce">
-          <p>联系方式：</p>
-          <p>毕业院校：</p>
-          <p>运营模块：</p>
-          <p>擅长领域：</p>
+          <p><span>联系方式：</span>{{item.tel}}</p>
+          <p><span>毕业院校：</span>{{item.school}}</p>
+          <p><span>运营模块：</span>{{item.work}}</p>
+          <p><span>擅长领域：</span>{{item.specialty}}</p>
         </div>
       </div>
     </div>
@@ -27,13 +27,55 @@ export default {
   data() {
     //这里存放数据
     return {
-      headerImgs: [
-        "boy1.png",
-        "girl1.png",
-        "boy2.png",
-        "girl2.png",
-        "boy2.png",
-        "girl2.png",
+      team: [
+     
+        { name:"谈国胜",
+          src:"boy1.png",
+          tel:"18036277708",
+          school:"常州大学",
+          work:"决策制定",
+          specialty:"推荐系统、网络安全、量化金融"
+        },
+         {
+           name:"张羽乔",
+          src:"boy2.png",
+          tel:"15706256239",
+          school:"常州大学",
+          work:"常安街设计与搭建",
+          specialty:"编程算法、虚幻引擎开发"
+        },
+         {
+           name:"陈祁",
+          src:"boy3.png",
+          tel:"13814529300",
+          school:"常州大学",
+          work:"网站开发与设计",
+          specialty:"全栈开发"
+        },
+         {
+           name:"常荷媛",
+          src:"girl1.png",
+          tel:"15295060580",
+          school:"常州大学",
+          work:"Logo设计、视频制作",
+          specialty:"平面设计、视频剪辑"
+        },
+         {
+           name:"邢榕",
+          src:"girl2.png",
+          tel:"1392300223",
+          school:"常州大学",
+          work:"素材收集",
+          specialty:"信息调研"
+        },
+         {
+           name:"高利勤",
+          src:"girl3.png",
+          tel:"13835476327",
+          school:"常州大学",
+          work:"财务分析",
+          specialty:"财务管理"
+        },
       ],
     };
   },
@@ -65,10 +107,10 @@ export default {
 .headerImgsBox {
   display: flex;
   justify-content: flex-start;
-  width: 80%;
+  width: 90%;
   margin: 4rem auto 1.5rem;
   > div {
-    margin: 0 1.5rem;
+    margin: 0 .6rem;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -86,7 +128,13 @@ export default {
       height: 12rem;
       z-index: 99;
       font-weight: 400;
-      letter-spacing: 0.2rem;
+      p{
+        line-height: 1.5rem;
+      }
+      span{
+        font-weight: 600;
+        color: rgb(63, 55, 44);
+      }
     }
   }
 }

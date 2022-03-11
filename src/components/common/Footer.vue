@@ -14,10 +14,11 @@
     <div class="center">
       <div>
         <p>友情链接:</p>
-        <div>https://blog.csdn.net/qq_59068750</div>
-        <div>https://blog.csdn.net/qq_59068750</div>
-        <div>https://blog.csdn.net/qq_59068750</div>
-        <div>https://blog.csdn.net/qq_59068750</div>
+        <div><a href="https://www.cczu.edu.cn/">常州大学官网</a></div>
+        <div><a href="http://bigdata.cczu.edu.cn/">常州大学计算机学院与人工智能学院官网</a></div>
+        <div><a href="http://marxism.cczu.edu.cn/">常州大学马克思主义学院官网</a></div>
+        <div><a href="http://jgy.cczu.edu.cn//">常州大学商学院、刘国钧管理学院官网</a></div>
+
       </div>
     </div>
     <div class="right">
