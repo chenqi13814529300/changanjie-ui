@@ -146,6 +146,7 @@ export default {
             console.log(res);
             if (res.data.status == 200) {
               this.$message.success("恭喜你，提交成功");
+              this.$router.push("/volunteerManage/povertyList")
             } else {
               this.$message.error("提交失败");
             }

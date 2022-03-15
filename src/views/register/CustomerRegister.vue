@@ -194,9 +194,15 @@ export default {
         this.customerInfo.site = this.customerInfo.site.join(",");
         console.log(this.customerInfo);
         this.$API.register.customerRegister(this.customerInfo).then((res) => {
-          if (res.data.status == 200) {
+            if (res.data.status == 200) {
             this.$message.success("恭喜你，注册成功");
-            this.$router.push("/login")
+            this.merchantInfo.role="消费者"
+            this.$router.push({
+              path:'/login',
+              query:{
+                loginInfo:this.customerInfo
+              }
+            });
           } else {
             this.$message.error("注册失败");
           }

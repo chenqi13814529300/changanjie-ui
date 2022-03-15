@@ -7,7 +7,7 @@
       :model="loginInfo"
       :rules="rules"
       ref="ruleSubmit"
-      label-width="80px"
+      label-width="5rem"
     >
       <el-form-item label="用户名" prop="username">
         <el-input
@@ -34,7 +34,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleSubmit')"
-          >提交</el-button
+          >登录</el-button
         >
         <el-button @click="resetForm('ruleSubmit')">重置</el-button>
       </el-form-item>
@@ -53,6 +53,7 @@ export default {
     //这里存放数据
     return {
       loginInfo: {},
+      flag: false,
       rules: {
         // username: {
         //   required: true,
@@ -76,16 +77,20 @@ export default {
     ...mapMutations(["setLoginInfo"]),
     submitForm(formName) {
       let arr = {
-        "消费者": "/aaa",
-        "商户": "/merchantManage/declare",
-        "志愿者": "/volunteerManage/declare",
-        "技术提供员": "/ccc",
-        "超级管理员": "superManage/pending",
+        消费者: "/aaa",
+        商户: "/merchantManage/declare",
+        志愿者: "/volunteerManage/declare",
+        技术提供员: "/ccc",
+        超级管理员: "superManage/pending",
       };
 
-      const md5 = this.$crypto.createHash("md5");
-      md5.update(this.loginInfo.password);
-      this.loginInfo.password = md5.digest("hex");
+      // 取反flag 获取的注册密码已经进行了md5处理不需要再处理
+      if (!this.flag) {
+        const md5 = this.$crypto.createHash("md5");
+        md5.update(this.loginInfo.password);
+        this.loginInfo.password = md5.digest("hex");
+      }
+
       this.$refs[formName].validate((valid) => {
         console.log(this.loginInfo);
         this.$API.login.login(this.loginInfo).then((res) => {
@@ -95,7 +100,7 @@ export default {
               username: this.loginInfo.username,
               role: this.loginInfo.role,
             };
-            // 设置vuex 
+            // 设置vuex
             this.setLoginInfo(currentInfo);
             // 设置localStorage
             currentInfo = JSON.stringify(currentInfo);
@@ -112,7 +117,13 @@ export default {
     },
   },
   //生命周期 - 创建完成（可以访问当前this实例）
-  created() {},
+  created() {
+    // 从注册过来则直接填充，flag为true
+    this.flag = Object.keys(this.$route.query).length;
+    if (this.flag) {
+      this.loginInfo = this.$route.query.loginInfo;
+    }
+  },
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
     //使用示例
@@ -138,11 +149,11 @@ export default {
 <style scoped lang="less">
 #login {
   width: 100%;
-  height: 70%;
+  height: 25rem;
   background: url(~@/assets/image/loginBg.jpg);
   background-size: 100%;
   position: relative;
-  text-align: center;
+  overflow: hidden;
   .title {
     padding-top: 2rem;
     font-size: 1.5rem;
@@ -150,21 +161,33 @@ export default {
     text-align: center;
   }
   .myForm {
-    position: absolute;
-    margin: auto;
-    // width: 50%;
-    top: 7rem;
+    display: inline-block;
+    position: relative;
     left: 50%;
     transform: translateX(-50%);
   }
+}
+.el-button {
+  height: 1.8rem;
+  font-size: 0.4rem;
+  text-align: center;
+  line-height: 0.4rem;
+}
+/deep/.el-form-item {
+  margin: 0.6rem 0;
 }
 /deep/.el-select {
   display: block;
 }
 /deep/.el-input__inner {
   width: 20rem;
+  height: 2rem;
+  font-size: 0.8rem;
 }
-.el-button{
+/deep/.el-form-item__label {
+  font-size: 0.8rem;
+}
+.el-button {
   margin: 0 2rem;
 }
 /*@import url(); 引入公共css类*/

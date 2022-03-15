@@ -52,14 +52,14 @@
             placeholder="请输入邮箱"
           ></el-input>
         </el-form-item>
-
+        <!-- 
         <el-form-item label="目前年收入" prop="annualIncome">
           <el-input
             v-model="merchantInfo.annualIncome"
             placeholder="请输入目前年收入"
           ></el-input>
-        </el-form-item>
-        <el-form-item label="产品名称" prop="productName">
+        </el-form-item> -->
+        <!-- <el-form-item label="产品名称" prop="productName">
           <el-input
             v-model="merchantInfo.productName"
             placeholder="请输入产品名称"
@@ -71,7 +71,7 @@
             v-model="merchantInfo.productInfo"
             placeholder="请输入产品信息"
           ></el-input>
-        </el-form-item>
+        </el-form-item> -->
 
         <el-form-item label="所在地" prop="site">
           <el-cascader
@@ -87,14 +87,14 @@
         <el-form-item label="详细地址" prop="detailAddress">
           <el-input
             v-model="merchantInfo.detailAddress"
-            placeholder="请输入产品详细地址"
+            placeholder="请输入详细地址"
           ></el-input>
         </el-form-item>
-        <el-form-item label="产品详略图（至少上传两张不同角度的图片）">
+        <!-- <el-form-item label="产品详略图（至少上传两张不同角度的图片）">
           <img-upload ref="imgUpload" @fileList="getProductImg"></img-upload>
-        </el-form-item>
+        </el-form-item> -->
 
-        <el-form-item label="目前是否有加工工艺">
+        <!-- <el-form-item label="目前是否有加工工艺">
           <el-switch v-model="merchantInfo.isCraft"></el-switch>
         </el-form-item>
         <el-form-item
@@ -102,7 +102,7 @@
           label="加工工艺详略图（至少上传两张不同角度的图片）"
         >
           <img-upload ref="imgUpload" @fileList="getCraftImg"></img-upload>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleSubmit')"
             >提交</el-button
@@ -224,42 +224,67 @@ export default {
     },
 
     //   产品详略图获取
-    getProductImg(fileList) {
-      // 图片选定后自动提交给服务器，反正个人信息里有url即可
-      // 也可以进行删除服务器图片操作，这里先不加了，不影响
-      this.merchantInfo.productImg = fileList.map((item) => item.response);
-    },
+    // getProductImg(fileList) {
+    //   // 图片选定后自动提交给服务器，反正个人信息里有url即可
+    //   // 也可以进行删除服务器图片操作，这里先不加了，不影响
+    //   this.merchantInfo.productImg = fileList.map((item) => item.response);
+    // },
     //   加工工艺详略图获取
-    getCraftImg(fileList) {
-      this.merchantInfo.craftImg = fileList.map((item) => item.response);
-    },
+    // getCraftImg(fileList) {
+    //   this.merchantInfo.craftImg = fileList.map((item) => item.response);
+    // },
+    // submitForm(formName) {
+    //   if (this.merchantInfo.productImg.length < 2) {
+    //     this.$message.error("提交信息有误，请核实图片个数");
+    //   } else {
+    //     // 加密
+    //     const md5 = this.$crypto.createHash("md5");
+    //     md5.update(this.merchantInfo.password);
+    //     this.merchantInfo.password = md5.digest("hex");
+
+    //     this.$refs[formName].validate((valid) => {
+    //       // json转化为string格式，不然后端和前端字符不匹配
+    //       this.merchantInfo.site = this.merchantInfo.site.join(",");
+    //       this.merchantInfo.productImg = this.merchantInfo.productImg.join(",");
+    //       if (this.merchantInfo.isCraft) {
+    //         this.merchantInfo.craftImg = this.merchantInfo.craftImg.join(",");
+    //       }
+
+    //       this.$API.register.merchantRegister(this.merchantInfo).then((res) => {
+    //         if (res.data.status == 200) {
+    //           this.$message.success("恭喜你，注册成功");
+    //           this.$router.push("/login");
+    //         } else {
+    //           this.$message.error("注册失败");
+    //         }
+    //       });
+    //     });
+    //   }
+    // },
     submitForm(formName) {
-      if (this.merchantInfo.productImg.length < 2) {
-        this.$message.error("提交信息有误，请核实图片个数");
-      } else {
-        // 加密
-        const md5 = this.$crypto.createHash("md5");
-        md5.update(this.merchantInfo.password);
-        this.merchantInfo.password = md5.digest("hex");
+      // 加密
+      const md5 = this.$crypto.createHash("md5");
+      md5.update(this.merchantInfo.password);
+      this.merchantInfo.password = md5.digest("hex");
 
-        this.$refs[formName].validate((valid) => {
-          // json转化为string格式，不然后端和前端字符不匹配
-          this.merchantInfo.site = this.merchantInfo.site.join(",");
-          this.merchantInfo.productImg = this.merchantInfo.productImg.join(",");
-          if (this.merchantInfo.isCraft) {
-            this.merchantInfo.craftImg = this.merchantInfo.craftImg.join(",");
+      this.$refs[formName].validate((valid) => {
+        // json转化为string格式，不然后端和前端字符不匹配
+        this.merchantInfo.site = this.merchantInfo.site.join(",");
+        this.$API.register.merchantRegister(this.merchantInfo).then((res) => {
+          if (res.data.status == 200) {
+            this.$message.success("恭喜你，注册成功");
+            this.merchantInfo.role="商户"
+            this.$router.push({
+              path:'/login',
+              query:{
+                loginInfo:this.merchantInfo
+              }
+            });
+          } else {
+            this.$message.error("注册失败");
           }
-
-          this.$API.register.merchantRegister(this.merchantInfo).then((res) => {
-            if (res.data.status == 200) {
-              this.$message.success("恭喜你，注册成功");
-              this.$router.push("/login");
-            } else {
-              this.$message.error("注册失败");
-            }
-          });
         });
-      }
+      });
     },
     // 地区
     handleChange(arr) {

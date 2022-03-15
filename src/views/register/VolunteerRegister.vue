@@ -220,9 +220,15 @@ export default {
         // this.studentInfo.picture = this.studentInfo.picture.join(",");
         console.log(this.volunteerInfo);
         this.$API.register.volunteerRegister(this.volunteerInfo).then((res) => {
-          if (res.data.status == 200) {
+              if (res.data.status == 200) {
             this.$message.success("恭喜你，注册成功");
-            this.$router.push('/login')
+            this.merchantInfo.role="志愿者"
+            this.$router.push({
+              path:'/login',
+              query:{
+                loginInfo:this.volunteerInfo
+              }
+            });
           } else {
             this.$message.error("注册失败");
           }
