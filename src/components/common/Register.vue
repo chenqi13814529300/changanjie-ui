@@ -48,9 +48,7 @@ export default {
 /deep/.el-textarea{
   width: 20rem;
 }
-/deep/.el-button{
-  margin: 0 2rem;
-}
+
 /deep/.el-form-item__content{
   text-align: left;
 }

@@ -58,7 +58,7 @@
         </el-form-item>
         <!-- 详细地址end -->
         <img-upload ref="imgUpload" @fileList="getFileList"></img-upload>
-        <el-form-item>
+        <el-form-item class="btns">
           <el-button type="primary" @click="submitForm('ruleSubmit')"
             >提交</el-button
           >
@@ -187,6 +187,14 @@ export default {
   activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 };
 </script>
-<style scoped>
+<style scoped lang="less">
 /*@import url(); 引入公共css类*/
+.btns{
+  display: flex;
+  justify-content: center;
+  .el-button{
+    margin: 0 2rem;
+  }
+}
+
 </style>

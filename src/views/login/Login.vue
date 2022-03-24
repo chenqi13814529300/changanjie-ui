@@ -32,7 +32,7 @@
           <el-option label="超级管理员" value="超级管理员"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item>
+      <el-form-item class="btns">
         <el-button type="primary" @click="submitForm('ruleSubmit')"
           >登录</el-button
         >
@@ -174,7 +174,7 @@ export default {
   line-height: 0.4rem;
 }
 /deep/.el-form-item {
-  margin: 0.6rem 0;
+  margin: 0.9rem 0;
 }
 /deep/.el-select {
   display: block;
@@ -187,8 +187,13 @@ export default {
 /deep/.el-form-item__label {
   font-size: 0.8rem;
 }
+
+.btns{
+  display: flex;
+  justify-content: space-between;
+}
 .el-button {
-  margin: 0 2rem;
+ margin: 0 2rem;
 }
 /*@import url(); 引入公共css类*/
 </style>

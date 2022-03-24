@@ -14,11 +14,19 @@
             <img src="@/assets/image/01.png" alt="" />
           </div>
           <p>1.吉林人参酒品牌宣布入驻常安街 <span>2022-03-06</span></p>
-          <p>2.2022年中央一号文件发布，推进乡村振兴  <span>2022-02-23</span></p>
+          <p>2.2022年中央一号文件发布，推进乡村振兴 <span>2022-02-23</span></p>
           <p>3.2022年全国农产品网络零售额正式公布 <span>2022-02-17</span></p>
-          <p>4.常州大学开展“红燕衔泥”暨千名大学生寒假寻访行动 <span>2022-01-14</span></p>
-          <p>5.常州大学阿里云大数据学院初步建立首个农产品数据库 <span>2021-12-20</span></p>
-          <p>6.常州大学学子深入全国多地开展农产品寻访调查 <span>2021-09-20</span></p>
+          <p>
+            4.常州大学开展“红燕衔泥”暨千名大学生寒假寻访行动
+            <span>2022-01-14</span>
+          </p>
+          <p>
+            5.常州大学阿里云大数据学院初步建立首个农产品数据库
+            <span>2021-12-20</span>
+          </p>
+          <p>
+            6.常州大学学子深入全国多地开展农产品寻访调查 <span>2021-09-20</span>
+          </p>
         </div>
       </div>
       <div class="center swing3">
@@ -106,6 +114,7 @@ export default {
     font-size: 0.8rem;
     overflow: hidden;
     > div {
+      overflow: hidden;
       padding-left: 15%;
       width: 100%;
       position: absolute;
@@ -124,10 +133,10 @@ export default {
       p {
         margin: 0.2rem 0;
         letter-spacing: 0.1rem;
-          font-size: .7rem;
-
-        span{
-          font-size: .7rem;
+        font-size: 0.7rem;
+        width: 90%;
+        span {
+          font-size: 0.7rem;
           color: rgb(111, 115, 119);
         }
       }
@@ -164,6 +173,4 @@ export default {
     }
   }
 }
-
-
 </style>

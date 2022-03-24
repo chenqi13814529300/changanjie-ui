@@ -74,7 +74,7 @@
           ></el-input>
         </el-form-item>
 
-        <el-form-item>
+        <el-form-item class="btns">
           <el-button type="primary" @click="submitForm('ruleSubmit')"
             >提交</el-button
           >
@@ -239,4 +239,12 @@ export default {
 };
 </script>
 <style scoped lang="less">
+.btns{
+  display: flex;
+  justify-content: center;
+  .el-button{
+    margin: 0 2rem;
+  }
+}
+
 </style>

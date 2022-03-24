@@ -62,7 +62,7 @@ export default {
           url: "/",
         },
         {
-          name: "长安街",
+          name: "常安街",
           url: "/changanjie",
         },
         {
@@ -167,6 +167,7 @@ export default {
       display: flex;
       align-items: center;
       justify-content: right;
+      flex-wrap: wrap;
       div {
         span {
           cursor: pointer;

@@ -38,8 +38,8 @@ export default {
       const initOption = {
         title: {
           text: "｜人员分布",
-          left: 20,
-          top: 20,
+          left: 15+'rem',
+          top: 20+'rem',
         },
         // 地图配置
         geo: {
