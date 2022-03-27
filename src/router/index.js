@@ -1,14 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import StudentRegister from '@/views/register/StudentRegister'
-import CustomerRegister from '@/views/register/CustomerRegister'
-import VolunteerRegister from '@/views/register/VolunteerRegister'
-import MerchantRegister from '@/views/register/MerchantRegister'
-import TechnicistRegister from '@/views/register/TechnicistRegister'
-
-import Login from '@/views/login/Login'
-
-
 
 
 Vue.use(VueRouter)
@@ -115,34 +106,34 @@ const routes = [
   {
     path: '/studentRegister',
     name: 'StudentRegister',
-    component: StudentRegister
+    component: ()=>import('@/views/register/StudentRegister')
   },
 
   {
     path: '/customerRegister',
     name: 'CustomerRegister',
-    component: CustomerRegister
+    component: ()=>import('@/views/register/CustomerRegister')
   },
   {
     path: '/volunteerRegister',
     name: 'VolunteerRegister',
-    component: VolunteerRegister
+    component: ()=>('@/views/register/VolunteerRegister')
   },
   {
     path: '/merchantRegister',
     name: 'MerchantRegister',
-    component: MerchantRegister
+    component:()=>('@/views/register/MerchantRegister')
   },
 
   {
     path: '/technicistRegister',
     name: 'TechnicistRegister',
-    component: TechnicistRegister
+    component: ()=>('@/views/register/TechnicistRegister')
   },
   {
     path: '/login',
     name: 'Login',
-    component: Login
+    component: ()=>('@/views/login/Login')
   },
 ]
 

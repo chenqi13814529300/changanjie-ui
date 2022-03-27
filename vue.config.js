@@ -1,4 +1,31 @@
+
 module.exports = {
+    
+    chainWebpack: config => {
+        config
+            .plugin('webpack-bundle-analyzer')
+            .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
+    },
+    configureWebpack: config => {
+        // 用cdn方式引入
+        config.externals = {
+            'vue': 'Vue',
+            'vuex': 'Vuex',
+            'element-ui': 'ElementUI',
+            'v-charts': 'VCharts',
+            'vue-quill-editor': 'VueQuillEditor',
+            'echarts': 'echarts',
+            'moment': 'moment',
+            'store': 'store',
+            'crypto': 'crypto'
+        }
+
+    },
+
+    configureWebpack: {
+
+    },// 配置webpack的字段。
+
     //  基本路径
     publicPath: "./",
     //  构建时的输出目录
@@ -42,6 +69,5 @@ module.exports = {
         }, // string | Object
 
     },
-
 
 }

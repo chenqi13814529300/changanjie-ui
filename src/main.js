@@ -14,9 +14,9 @@ Vue.prototype.$API = API
 Vue.prototype.$crypto = crypto
 Vue.use(ElementUI)
 
-import 'fullpage.js/vendors/scrolloverflow';
-import VueFullPage from 'vue-fullpage.js';
-Vue.use(VueFullPage)
+// import 'fullpage.js/vendors/scrolloverflow';
+// import VueFullPage from 'vue-fullpage.js';
+// Vue.use(VueFullPage)
 
 
 import moment from 'moment'

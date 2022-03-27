@@ -1,48 +1,122 @@
-<!--  -->
 <template>
-<div class='main'>
-      <canvas id="canvas"  ref="canvas" style=" 
-    display: block;margin: 50px auto; " width="800" height="555"></canvas>
-</div>
+
+<div id="demo" style="width:600px;height:600px;"/>
+
 </template>
 
-<script>
-//这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
-//例如：import 《组件名称》 from '《组件路径》';
-import { init } from "@/assets/js/index.js";
 
-export default {
-  //import引入的组件需要注入到对象中才能使用
-  components: {},
-  data() {
-    //这里存放数据
-    return {};
-  },
-  //监听属性 类似于data概念
-  computed: {},
-  //监控data中的数据变化
-  watch: {},
-  //方法集合
-  methods: {},
-  //生命周期 - 创建完成（可以访问当前this实例）
-  created() {},
-  //生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {
-    var canvas = this.$refs.canvas
-    init(canvas);
-  },
-  beforeCreate() {}, //生命周期 - 创建之前
-  beforeMount() {}, //生命周期 - 挂载之前
-  beforeUpdate() {}, //生命周期 - 更新之前
-  updated() {}, //生命周期 - 更新之后
-  beforeDestroy() {}, //生命周期 - 销毁之前
-  destroyed() {}, //生命周期 - 销毁完成
-  activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
-};
+
+<script>
+
+ import * as THREE from "three"
+
+ export default {
+
+   data () {
+
+     return {
+       cube: undefined,
+       scene: undefined,
+       camera: undefined,
+       renderer: undefined,
+       floorTexture: undefined
+
+     }
+
+   },
+
+   mounted () {
+
+     this.initThree()
+
+     this.animate()
+
+   },
+
+   methods: {
+
+     initThree () {
+
+       // 创建场景
+
+       this.scene = new THREE.Scene()
+
+       // 创建相机
+
+       this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+
+       // 渲染器
+
+       this.renderer = new THREE.WebGLRenderer()
+
+       // 设置背景颜色 最新版目前默认为黑色
+
+       this.renderer.setClearColor(0xffffff)
+
+       this.renderer.shadowMap.enabled = true
+
+       this.renderer.setSize(window.innerWidth, window.innerHeight)
+
+       document.getElementById('demo').appendChild(this.renderer.domElement)
+
+       // 加载图片
+
+       const geometry = new THREE.BoxGeometry()
+
+       var texture = new THREE.TextureLoader().load('static/img/123.png', () => {
+
+         this.renderer.render(this.scene, this.camera)
+
+       })
+
+       // 沿x方向和Y方向都重复填充
+
+       texture.wrapS = texture.wrapT = THREE.RepeatWrapping
+
+       // 每面4*4
+
+       texture.repeat.set(4, 4)
+
+       var material = new THREE.MeshBasicMaterial({ map: texture })
+
+       this.cube = new THREE.Mesh(geometry, material)
+
+       this.cube.position.set(1, 0, 0)
+
+       this.scene.add(this.cube)
+
+       this.camera.position.z = 5
+
+       this.renderer.render(this.scene, this.camera)
+
+     },
+
+     animate: function () {
+
+       requestAnimationFrame(this.animate)
+
+       this.cube.rotation.y += 0.01
+
+       this.renderer.render(this.scene, this.camera)
+
+     }
+
+   }
+
+ }
+
 </script>
-<style scoped lang="less">
-/*@import url(); 引入公共css类*/
-.main {
-  height: 80vh;
-}
+
+
+
+
+<style>
+
+  .mod-home {
+
+    line-height: 1.5;
+
+  }
+
 </style>
+
